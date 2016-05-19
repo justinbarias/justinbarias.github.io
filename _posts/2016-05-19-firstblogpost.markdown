@@ -37,6 +37,9 @@ Breaking down the JSON template above, what it does is deploy the following, wit
 
 As you can see, the template above is a whopping **700+ LoC**, and unless you have VS2015 fired up with that fancy JSON explorer, understanding the template is gonna take alot of time and coffee.
 
+
+The gameplan
+---------------------
 After digesting the *World-class ARM templates* document, I've set my approach on working to decompose that **HUGE** JSON file. 
 
 1. Decompose shared resources like VNETs, Subnets, Load Balancers, Availability Sets - calling it *sharedresources.json*
