@@ -1,9 +1,23 @@
 ---
 layout: post
-title:  "Test Blog Post"
+title:  "Decomposing AzureRM JSON templates"
 date:   2016-05-19 10:12:00 +1000
-categories: testing
+categories: DevOps, AzureRM, Infrastructure-as-code
 ---
+
+As my first post, I've decided to start talking about my current interest, *Infrastructure-as-Code* as part of my **DevOps** learning & practise.
+I've delved with JSON files in deploying full environments for either Dev, Test, and Production. An have asked the question:
+> How do I make AzureRM templates  more readable and reusable?
+
+With a little search in the Azure Documentation site, i've come across this document: [World class ARM templates](http://download.microsoft.com/download/8/E/1/8E1DBEFA-CECE-4DC9-A813-93520A5D7CFE/World%20Class%20ARM%20Templates%20-%20Considerations%20and%20Proven%20Practices.pdf).
+
+After a bit of reading, a few concepts caught my eye that can help readability and reusability:
+1.   Template linking.
+2.  Dynamic variable generation using concat.
+3.  Fixed configurations v.s. Free-flowing configurations.
+
+I will leave you to do the reading, but by now I hope you know where I'm going with this - **Decomposition**.
+
 
 A First Level Header
 ====================
