@@ -18,7 +18,7 @@ As I wanted to focus on some advanced stuff in Azure AD Connect in this current 
 
 * Setup DNS forwarders between the two forests
 * Setup bidirectional, two-way forest trust
-* A prepared, tested migration script that does user & group migration with SID history migration [see link here](http://)
+* A prepared, tested migration script that does user & group migration with SID history migration [see link here](https://github.com/justinbarias/PowershellRepo/tree/master/MigrationScript)
 
 The Problem statement(s)
 ---------------------
