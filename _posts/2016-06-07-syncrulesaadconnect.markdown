@@ -3,6 +3,7 @@ layout: post
 title:  "Cross-forest migration with an existing Azure ADSync installation"
 date:   2016-06-17 09:24:00 +1000
 categories: Cloud Identity, Azure AD, DirSync
+comments: true
 ---
 
 A quick one coming right up!
