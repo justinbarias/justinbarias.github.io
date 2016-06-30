@@ -12,7 +12,7 @@ description: > # this means to ignore newlines until "baseurl:"
   A budding DevOps engineer - from the dark world of WinTel. Loves to play around with CI/CD tools, wanna build microservices-based web API, and spends much of his time gaming. 
   If you're a Ops/Infra/WinTel guy looking to transform into something more relevant, this is your blog!
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "http://blog.jbdevops.com" # the base hostname & protocol for your site
 github_username:  justinbarias
 # Google services
 google_analytics: 'UA-77974211-1'
