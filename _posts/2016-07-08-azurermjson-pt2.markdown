@@ -269,7 +269,7 @@ What is this for, you may ask? Well, take a look:
 Still not seeing it? Well take a look at the next code block.
 Here we have complex objects. Recommended reading, JSON complex [objects/schema](https://spacetelescope.github.io/understanding-json-schema/structuring.html)
 Remember the scenario a while ago? **"vmRole" + "AADC" = vmRoleAADC**?
-Do you see the complex object below named **vmRoleAADC*? Along with the child objects it has such as vmSize, osDiskURI, dataDiskURI etc.?
+Do you see the complex object below named **vmRoleAADC**? Along with the child objects it has such as vmSize, osDiskURI, dataDiskURI etc.?
 
 {% highlight json %}
  
@@ -310,7 +310,7 @@ Do you see the complex object below named **vmRoleAADC*? Along with the child ob
   {% endhighlight %}
 
 By now, it should start making sense.
-In our scenario, the variable **vmDynamicRole** will take the value of the complex object **vmRoleAADC*.
+In our scenario, the variable **vmDynamicRole** will take the value of the complex object **vmRoleAADC**.
 
 Which means, using an ARM variable reference
 
