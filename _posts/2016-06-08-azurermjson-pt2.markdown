@@ -249,6 +249,7 @@ These variables make sure that all VHD URIs are unique. Variables such as VNET I
 
 Lastly, but most importantly, we have the variable **vmDynamicRole**. This is the key cog in all of this - which concatenates the string "vmRole" and the parameter **vmRole**.
 What is this for, you may ask? Well, take a look:
+
 > Let's say, the Parameter **vmRole** has a value of *AADC*. (Which stands for Azure AD Connect)
 > "vmRole" + "AADC" = **vmRoleAADC**. 
 
