@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Decomposing AzureRM JSON templates - Part 2"
-date:   2016-06-08 11:12:00 +1000
+date:   2016-07-08 11:12:00 +1000
 categories: DevOps, AzureRM, Infrastructure-as-code
 comments: true
 ---
