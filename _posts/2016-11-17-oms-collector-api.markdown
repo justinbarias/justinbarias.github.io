@@ -1,8 +1,8 @@
 ---
 layout: post
 title:  "Ingesting log analytics data using the OMS HTTP collector API"
-date:   2016-11-17 13:00:00 +1000
-categories: DevOps, AzureRM, OMS, AzureSQL
+date:   2016-11-17 01:00:00 +1000
+categories: OMS
 comments: true
 ---
 
@@ -19,21 +19,21 @@ To start - two documents I referenced are:
     Get-AzureRMMetric obviously is not only for SQL Azure, but for **any** Azure Resource. The problem here is that for each Azure resource, there is no form of documentation that tells us what metrics are available on which resources.
     So, i've gone ahead and done that for you, below are the available metrics for SQL Azure.
 
-* connection_successful
-* connection_failed
-* blocked_by_firewall
-* deadlock
-* cpu_percent
-* physical_data_read_percent
-* log_write_percent
-* dtu_consumption_percent
-* storage
-* xtp_storage_percent
-* workers_percent
-* sessions_percent
-* dtu_limit
-* dtu_used
-* storage_percent
+    * connection_successful
+    * connection_failed
+    * blocked_by_firewall
+    * deadlock
+    * cpu_percent
+    * physical_data_read_percent
+    * log_write_percent
+    * dtu_consumption_percent
+    * storage
+    * xtp_storage_percent
+    * workers_percent
+    * sessions_percent
+    * dtu_limit
+    * dtu_used
+    * storage_percent
 
 2. Reference for the OMS HTTP data collector API - [OMS Data Collector API](https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-data-collector-api)
 
@@ -57,58 +57,7 @@ Ingest-OMSData.ps1 consists of serveral functions:
 * Extract-Telemetry - extracts the Azure SQL performance metrics
 * Build-TelemtryJson - builds the JSON payload containing the performance metrics
 
-{% highlight json %}
-"type": "Microsoft.Compute/virtualMachines",
-
-            "resources": [
-                {
-                    "type": "Microsoft.Compute/virtualMachines/extensions",
-                    "name": "[concat(parameters('vmName'),'/', variables('vmDynamicRole').dscConfigurationFunction)]",
-                    "apiVersion": "2015-06-15",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Compute/virtualMachines', parameters('vmName'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Powershell",
-                        "type": "DSC",
-                        "typeHandlerVersion": "2.17",
-                        "settings": {
-                            "wmfVersion": "latest",
-                            "configuration": {
-                                "url": "[variables('vmDynamicRole').dscModuleURL]",
-                                "script": "[variables('vmDynamicRole').dscConfigurationScript]",
-                                "function": "[variables('vmDynamicRole').dscConfigurationFunction]"
-                            },
-                            "configurationArguments": {
-                                "domainName": "[parameters('domainName')]",
-                                "domainNetBiosName": "[parameters('domainNetBiosName')]"
-                            },
-                            "privacy": {
-                                "dataCollection": "disable"
-                            }
-                        },
-                        "protectedSettings": {
-                            "configurationArguments": {
-                                "adminCreds": {
-                                    "userName": "[parameters('adminUserName')]",
-                                    "password": "[parameters('adminPassword')]"
-                                },
-                                "dsrmCreds": {
-                                    "userName": "[parameters('adminUserName')]",
-                                    "password": "[parameters('dsrmPassword')]"
-                                }
-
-                            }
-                            
-                        }
-                    }
-
-{% endhighlight %}
-
 Summary
 ---------------------
 
-That's alot to take in - but you may ask, why go through the trouble of architecting a complex way to create VMs?
-Well, all in the line of re-usability, configuration management & code readability. This fixed config approach also allows you to keep the configurations of Vm types *sacred* while giving you freedom to define VM instances as you will.
-In an actual production environment, you would have the *armtemplates* scripts secured by a more stringent change management process, while the *armdeploy* templates will be a bit more lax.
+Well - there you go! Feel free to expand the script to accomodate other Azure Resources (Web App, App Service Environments, etc.)
