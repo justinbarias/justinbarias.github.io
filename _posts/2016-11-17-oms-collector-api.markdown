@@ -55,6 +55,10 @@ Ingest-OMSData.ps1 consists of serveral functions:
 * Build-Signature - builds the API authorisation signature
 * Post-OMSData - invokes the OMS data collector API
 * Extract-Telemetry - extracts the Azure SQL performance metrics
+```
+This is a code block
+
+```
 * Build-TelemtryJson - builds the JSON payload containing the performance metrics
 
 Summary
