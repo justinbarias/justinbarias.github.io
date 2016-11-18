@@ -6,8 +6,8 @@ categories: OMS
 comments: true
 ---
 
-Gahh!! 5 months since my last blog post - found time during a the downtime of a so-called "Azure ExpressRoute - master class training".
-Anyway, this post was inspired but some work I did with a customer that just went live a week ago - who used Azure SQL (single instance) - on a *P15* SKU. 
+Gahh!! 5 months since my last blog post - found time during  the downtime of a so-called "Azure ExpressRoute - master class training".
+Anyway, this post was inspired by some work I did with a customer that just went live a week ago - who used Azure SQL (single instance) - on a *P15* SKU. 
 Yup, you read that right, the biggest SQL Tier in Azure SQL.
 
 Currently, Azure SQL metrics cannot be ingested into OMS Log Analytics (without being part of a private preview - which is taking ages to process). So, I did what any engineer would do - do it yourself!
