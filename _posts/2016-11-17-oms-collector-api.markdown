@@ -6,7 +6,7 @@ categories: OMS
 comments: true
 ---
 
-Gahh!! 5 months since my last blog post - found time during a the downtime of a so-called "Azure ExpressRoute - master class training".
+Gahh!! 5 months since my last blog post - found time during  the downtime of a so-called "Azure ExpressRoute - master class training".
 Anyway, this post was inspired but some work I did with a customer that just went live a week ago - who used Azure SQL (single instance) - on a *P15* SKU. 
 Yup, you read that right, the biggest SQL Tier in Azure SQL.
 
@@ -37,7 +37,8 @@ To start - two documents I referenced are:
 
 2. Reference for the OMS HTTP data collector API - [OMS Data Collector API](https://docs.microsoft.com/en-us/azure/log-analytics/log-analytics-data-collector-api)
 
-I built a powershell script which achives the outcome I wanted, and is published here:
+I built a powershell script which achives the outcome I wanted, and is published here [Ingest-OMSData.ps1](https://raw.githubusercontent.com/justinbarias/PowershellRepo/master/OMS/Ingest-OMSData.ps1)
+
 
 Which takes on the following parameters:
 
