@@ -55,14 +55,42 @@ You think to yourself, *"Job Done!"*, pat yourselves in the back, writeup a repo
 The **I'm back to earth** phase
 ---------------------
 Assuming your application is humming along just fine, you get a month of relative peace, then you get an email from your manager:
+
 **Subject: Re: Overblown cloud OPEX**
 
-You see the body of the email, and you get hit with a monthly cost worth your annual salary.
+You see the body of the email, and you get hit with a monthly cost worth half your annual salary.
 
 **GULP**. 
 
-You investigate, and it seems your scale-up rules was the culprit (you can't scale out because your app.. just doesn't support scaling out). 
-Your monolith app, which ran on three web servers, a two-node RDBMS cluster, have scaled up through the SKUs like mad scientists.
+You investigate, and it seems your scale-up rules were the culprit (you can't scale out because your app.. just doesn't support scaling out). 
+Your monolith app, which ran on three web servers, a two-node RDBMS cluster, have scaled up through the SKUs like mad - and now cost a few thousand dollars per month.
+
+The supposed savings, and new revenue/profit you get out of more agility is negated by the outstanding monthly costs you've racked up.
+
+
+
+The **This is a conspiracy by cloud providers for us to buy into their Microservices cool-aid** phase
+---------------------
+You see folks, this comes down to how lean your infrastructure is, and by association, your code is.
+
+**Fewer instances with large capacity cost more than having higher instance counts with lower capacity sizes**
+
+basically,
+
+**An instance  with 24GB of memory is roughly 2.5-3.0x more expensive than three instances with 8GB of memory**.
+![VMSizeAWS](/assets/vmsize0.png)
+
+For Azure, it doesn't necessarily show that same ratio of capacity vs cost, but basically, uplifting to higher SKUs is more than x2.0 the cost of the previous SKU.
+![VMSizeAz](/assets/vmsize1.png)
+
+
+And this is not only true for virtual servers, this is especially true for *physical servers*. 
+If you ever built your own Desktop - you might have found out that buying an 8GB DDR4 RAM module is more expensive that buying two 4GB DDR4 RAM modules.
+
+When talking about 1-3 servers, it seems like peanuts (take note these are hourly costs) - but put in a monthly time frame, with a cluster of bigger VM SKUs, the cost will start adding up.
+
+This becomes even more evident when consuming services higher up the stack (PaaS).
+
 
 
 Summary
