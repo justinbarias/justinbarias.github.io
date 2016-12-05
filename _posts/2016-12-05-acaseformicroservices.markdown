@@ -2,7 +2,7 @@
 layout: post
 title:  "A business case for Microservices in a not so hyperscale organization"
 date:   2016-12-05 16:48:00 +1000
-categories: OMS
+categories: Microservices, DesignPatterns
 comments: true
 ---
 
