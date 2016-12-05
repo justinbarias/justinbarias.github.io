@@ -9,9 +9,9 @@ comments: true
 
 Foreword
 ---------------------
-Firstly, let me get this out - I do not condone Hype-driven development. For more details on Hype-driven development, check this awesome blog post [https://blog.daftcode.pl/hype-driven-development-3469fc2e9b22?gi=441af6f2a370].
+Firstly, let me get this out - I do not condone Hype-driven development. For more details on Hype-driven development, check this awesome blog [post](https://blog.daftcode.pl/hype-driven-development-3469fc2e9b22?gi=441af6f2a370).
 
-Another reference I like to make is Martin Fowler's "You have to be this tall to use Microservices" [http://martinfowler.com/bliki/MicroservicePrerequisites.html]
+Another reference I like to make is Martin Fowler's ["You have to be this tall to use Microservices"](http://martinfowler.com/bliki/MicroservicePrerequisites.html)
 
 Let's go through his points.
 
