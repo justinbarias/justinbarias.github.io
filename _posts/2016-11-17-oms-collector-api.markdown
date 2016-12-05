@@ -7,7 +7,7 @@ comments: true
 ---
 
 Gahh!! 5 months since my last blog post - found time during  the downtime of a so-called "Azure ExpressRoute - master class training".
-Anyway, this post was inspired but some work I did with a customer that just went live a week ago - who used Azure SQL (single instance) - on a *P15* SKU. 
+Anyway, this post was inspired by some work I did with a customer that just went live a week ago - who used Azure SQL (single instance) - on a *P15* SKU. 
 Yup, you read that right, the biggest SQL Tier in Azure SQL.
 
 Currently, Azure SQL metrics cannot be ingested into OMS Log Analytics (without being part of a private preview - which is taking ages to process). So, I did what any engineer would do - do it yourself!
@@ -55,8 +55,100 @@ Ingest-OMSData.ps1 consists of serveral functions:
 
 * Build-Signature - builds the API authorisation signature
 * Post-OMSData - invokes the OMS data collector API
-* Extract-Telemetry - extracts the Azure SQL performance metrics
-* Build-TelemtryJson - builds the JSON payload containing the performance metrics
+* Extract-Telemetry - extracts the Azure SQL performance metrics. Here, we specifiy a time interval, and a granularity interval. Some resources in Azure collect metrics in different granularities, in this case, Azure SQL does so in 5 minute granularity.
+Prior to invoking *Get-AzureRMMetric*, we need to build the resource ID of the database. 
+
+```powershell
+
+function extractTelemetry($sqlServerName)
+{
+Set-AzureRmContext -SubscriptionId $subscriptionId
+
+# Get resource usage metrics for an SQL DB for the specified time interval.
+$endTime = [DateTime]::Now
+$startTime = ([DateTime]::Now).AddMinutes(-5)
+
+# Construct the SQL Server resource ID and retrive pool metrics at 5 minute granularity.
+$serverResourceId = '/subscriptions/' + $subscriptionId + '/resourceGroups/' + $resourceGroupName + '/providers/Microsoft.Sql/servers/' + $serverName
+
+# Get the list of databases in this pool.
+$dbList = Get-AzureRmSqlDatabase -ResourceGroupName $resourceGroupName -ServerName $serverName
+
+# Get resource usage metrics for a database in an elastic database for the specified time interval.
+$dbMetrics = @()
+foreach ($db in $dbList)
+{
+    if($db.databaseName -eq $dbName){
+    $dbResourceId = '/subscriptions/' + $subscriptionId + '/resourceGroups/' + $resourceGroupName + '/providers/Microsoft.Sql/servers/' + $serverName + '/databases/' + $db.DatabaseName
+    $dbMetrics += (Get-AzureRmMetric -ResourceId $dbResourceId -TimeGrain ([TimeSpan]::FromMinutes(5)) -StartTime $startTime -EndTime $endTime)
+    }
+ }
+
+ return $dbMetrics
+}
+
+```
+
+*Get-AzureRMMetric* returns a hashtable/array of Metric objects, with each metric object representing a specific metric.
+These metric objects then have a property called *metricValues* which is another hashtable/array of the actual values of the metric. The length of the array depends on the time interval and the granularity you specified.
+In this case, I always extract index 0 - as I only want once instance of the metric to pump into my JSON payload.
+
+* Build-TelemetryJson - builds the JSON payload containing the performance metrics. Now this bit is pretty simple, you just need to build a payload either in this format:
+
+```json
+{
+    "Key": "Value",
+    "Key2": "Value2",
+    "Key3": "Value3"
+
+}
+```
+Or this format:
+
+```json
+[
+{
+    "Key": "Value",
+    "Key2": "Value2",
+    "Key3": "Value3"
+
+},
+{
+    "Key": "Value",
+    "Key2": "Value2",
+    "Key3": "Value3"
+
+},
+]
+```
+
+If you read up on the OMS HTTP collector API documentation, OMS will infer the data type (string, date, integer, boolean), and will append a postfix (_s, _d, _n, _b) depending on the infered type.
+Also, OMS will also append a postfix "_CL" on the LogType name you choose.
+
+```powershell
+function buildTelemetryJson($sqlServerName,$dbMetric)
+{
+
+    $resourceId = $dbMetric.resourceId
+    $dbName = $resourceId.split("/")[-1]
+
+    $dtu_consumption_percent = ($dbMetric | Where-Object {$_.name -eq 'dtu_consumption_percent'})
+    $dtu_used = ($dbMetric | Where-Object {$_.name -eq 'dtu_used'})
+    $storage_percent = ($dbMetric | Where-Object {$_.name -eq 'storage_percent'})
+    $storage = ($dbMetric | Where-Object {$_.name -eq 'storage'})
+
+    $json = "{"
+    $json += "`"DBName`": `"" + $dbName + "`","
+    $json += "`n`"dtuPct`": " + $dtu_consumption_percent.metricValues[0].Average + ","
+    $json += "`n`"dtuUsed`": " + $dtu_used.metricValues[0].Average + ","
+    $json += "`n`"stgBytes`": " + $storage.metricValues[0].Average + ","
+    $json += "`n`"stgPct`": " + $storage_percent.metricValues[0].Average
+    $json += "`n}"
+
+    return $json
+}
+
+```
 
 Summary
 ---------------------
