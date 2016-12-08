@@ -78,7 +78,7 @@ You see folks, this comes down to how lean your infrastructure is, and by associ
 
 basically,
 
-**An instance  with 24GB of memory is roughly 2.5-3.0x more expensive than three instances with 8GB of memory**.
+**An instance  with 24GB of memory is roughly 1.5-1.8x more expensive than three instances with 8GB of memory**.
 ![VMSizeAWS](/assets/vmsize0.png)
 
 For Azure, it doesn't necessarily show that same ratio of capacity vs cost, but basically, uplifting to higher SKUs is more than x2.0 the cost of the previous SKU.
