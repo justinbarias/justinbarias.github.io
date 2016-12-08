@@ -6,6 +6,7 @@ categories: Microservices, DesignPatterns
 comments: true
 ---
 
+Yay! My first blog post which doesn't involve code, nor infrastructure stuff..
 
 Foreword
 ---------------------
@@ -91,9 +92,18 @@ When talking about 1-3 servers, it seems like peanuts (take note these are hourl
 
 This becomes even more evident when consuming services higher up the stack (PaaS).
 
+What do I do now?
+---------------------
+
+First off, please don't go rewriting your entire code base - the best way to start off is to start building adapters around your legacy app, and start building new features/stories as Microservices around your legacy app.
+This is called a [strangler application -as coined by Martin Fowler](https://www.martinfowler.com/bliki/StranglerApplication.html).
+Also, be wary of the non-technical repercussions of moving to this architecture, ideally, you'd also be breaking your teams apart into cross-cutting teams (across capabilities, e.g. dev and ops), for each microservice.
+So instead of adhering to Domain-driven design principles, I'd say it's more important to structure your microservice around your team's capabilities.
+
+A great starting point as well is this great blog [post from Nginx](https://www.nginx.com/blog/refactoring-a-monolith-into-microservices/?utm_source=building-microservices-using-an-api-gateway&utm_medium=blog&utm_campaign=Microservices).
 
 
 Summary
 ---------------------
 
-Well - there you go! Feel free to expand the script to accomodate other Azure Resources (Web App, App Service Environments, etc.)
+TL;DR - it's cheaper to run smaller services than large monoliths in the cloud (regardless of the cloud provider).
