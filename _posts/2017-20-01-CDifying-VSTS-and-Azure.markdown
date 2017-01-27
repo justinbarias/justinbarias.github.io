@@ -83,6 +83,12 @@ To install nuget.exe, funny enough, I've had to use chocolatey. Pretty simple he
             DependsOn   = "[cChocoInstaller]installChoco"
         }
 
+         cChocoPackageInstaller installNugetCLI
+        {
+            Name        = "nuget.commandline"
+            DependsOn   = "[cChocoInstaller]installChoco"
+        }
+
 {% endhighlight %}
 
 ### Add VSTS Package Management feed
