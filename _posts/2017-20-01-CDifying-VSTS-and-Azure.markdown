@@ -6,7 +6,7 @@ categories: ContinuousDelivery
 comments: true
 ---
 
-First post for the year! So you might know that I do alot of work for Australia's largest retail organisation (up to you to guess which one).
+First post for the year! So you might know that I do alot of work a certain large retail organisation (up to you to guess which one).
 A specific project required me to develop a continuous delivery pipeline for this legacy system.
 
 A bit of background:
