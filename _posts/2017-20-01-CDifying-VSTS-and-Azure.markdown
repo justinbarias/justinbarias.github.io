@@ -41,7 +41,7 @@ However, in a continuous delivery pipeline, it would/should look like something 
 
 As virtual machines scale up/down, get turn apart/rebuilt all over again - the instances themselves need to know where, what package to pull from the Repo.
 Enter VSTS Package Management - because I'm lazy, I don't want to spin up/maintain my own Nuget Server. 
-VSTS Package management supports v2/v3 version of Nuget - to there's support for legacy Nuget clients. However, for some reason, it does not support Nuget API keys for access.
+VSTS Package management supports v2/v3 version of Nuget - so there's support for legacy Nuget clients. However, for some reason, it does not support Nuget API keys for access.
 There is, however, an option to use personal access tokens (PAT) - which offers a similar experience of using API keys. Problem with PATs is they expire.
 
 Powershell DSC
