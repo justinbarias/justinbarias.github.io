@@ -34,7 +34,7 @@ It is **not** a good tool for deploying anything in a cloud-agnostic way (e.g. I
 I'm stuck with it though so I figured I'll just make do.
 
 So a standard release process would probably look like this:
-Build Artifact -> Populate Environment config (web.config xml) -> Repackage into Nuget -> Use web deploying
+Build Artifact -> Populate Environment config (web.config xml) -> Repackage into Nuget -> Use web deploy
 
 However, in a continuous delivery pipeline, it would/should look like something similar to this:
 ![CDPipeline](/assets/CD-VSTS-DSC.png)
