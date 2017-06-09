@@ -14,13 +14,9 @@ First post in quite a while. Mouthful title! Before we go further, let's get the
 
 Now, I could start slow, purely talk about Kubernetes basics, or maybe talk about dotnetcore and how to docker-ize it. But I believe that any piece of tech only delivers value in one place, and no, that's not in your dev machine nor the Git repo. It's in production.
 
-Hence, I'd like to take you on the journey of building a build/release pipeline for running .NET core in **production systems** on a Kubernetes cluster. This will be a 3-part series:
-Part 1 will be .NET core, docker basics and stuff, some container best practices.
-Part 2 will be about Azure Container Services,  Kubernetes, talking about key concepts like Pods, Services, and YAML IaC files, and putting it all together
-Part 3 will be about VSTS, setting up the build agent, build & release pipelines.
+Hence, I'd like to take you on the journey of building a build/release pipeline for running .NET core in **production systems** on a Kubernetes cluster.
 
-
-Strap in, here's part 1!
+Strap in, as this will be a long ride!
 
 Scaffolding using Yeoman 
 =======================
@@ -140,6 +136,30 @@ Container best practice tells us that we should have at least *3 different types
   To prove I'm not cheating, here's a view of the container thru Kitematic:
   ![dockerrun.png](/assets/kitematic.png)
 
-That's it for part 1! We now have an app, and have established a typical dev machine workflow.
 
-Part 2 is about Kubernetes, ACS, and the bits necessary to run our UAT environments, PROD environment, and stuff.
+VSTS Build and release
+=======================
+
+Setting up a build server agent
+--------------------------
+
+VSTS Build Definition
+--------------------------
+
+VSTS Release Definition
+--------------------------
+
+ACS Cluster 
+=======================
+
+Creating the cluster
+--------------------------
+
+Kubernetes YML files
+=======================
+
+Pod YAML file
+--------------------------
+
+Service YAML file
+--------------------------
