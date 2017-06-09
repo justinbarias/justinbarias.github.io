@@ -143,3 +143,5 @@ Container best practice tells us that we should have at least *3 different types
 That's it for part 1! We now have an app, and have established a typical dev machine workflow.
 
 Part 2 is about Kubernetes, ACS, and the bits necessary to run our UAT environments, PROD environment, and stuff.
+
+You can find the source code, and future stuff I'll be showing in [here](https://github.com/justinbarias/ExpertsLiveRepo)
