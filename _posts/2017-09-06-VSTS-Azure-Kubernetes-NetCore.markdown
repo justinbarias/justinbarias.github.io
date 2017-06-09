@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "A continuous delivery pipeline for .NET core with Azure, VSTS, ACS, and Kubernetes"
-date:   2017-09-06 14:51:00 +1000
+date:   2017-06-09 14:51:00 +1000
 categories: ExpertsLive,AzureGlobalBootcamp,Kubernetes,Azure,VSTS,Containers
 comments: true
 ---
