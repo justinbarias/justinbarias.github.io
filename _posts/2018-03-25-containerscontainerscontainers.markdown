@@ -6,7 +6,7 @@ categories: Teardown, Review, AKS
 comments: true
 ---
 
-Been a while since my last post. Let's get back to getting down and dirty! Here we have a teardown (well, not really a teardown) of Azure Kubernetes Service (the managed Kubernetes hosting option in Azure). Been using it for about 4 weeks running a sort of production workload (which is another blog post).
+Been a while since my last post. Let's get back to getting down and dirty! Here we have a teardown (well, not really a teardown) of Azure Kubernetes Service (the managed Kubernetes hosting option in Azure). Been using it for about 4 weeks running a "sort of" production workload (which is another blog post).
 
 What's AKS?
 -------------------
