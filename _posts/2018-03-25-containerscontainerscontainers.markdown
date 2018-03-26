@@ -44,7 +44,7 @@ The bad news
 
 Some gotchas
 ================
-Another gotcha is monitoring. Since Kubernetes 1.8.x, the heapster service has basically been deprecated as the metrics aggregator for kubernetes. This has been replaced by the metric server. The problem though is AKS still deploys heapster (which is now incompatible with some critical services such as the horizontal pod autoscaler) - which causes heaps of problems. Again using a regular BYO kubernetes cluster, you can set the api server flag to not use the rest-based metrics server via the ``` --horizontal-pod-autoscaler-use-rest-clients ``` flag, which unfortunately you can't do on AKS. So the solution would be to deploy the metrics-server yourself. Here's how to do it:
+Another gotcha is monitoring. Since Kubernetes 1.8.x, the heapster service has basically been deprecated as the metrics aggregator for kubernetes. This has been replaced by the metrics server. The problem though is AKS still deploys heapster (which is now incompatible with some critical services such as the horizontal pod autoscaler) - which causes heaps of problems. Again using a regular BYO kubernetes cluster, you can set the api server flag to not use the rest-based metrics server via the ``` --horizontal-pod-autoscaler-use-rest-clients ``` flag, which unfortunately you can't do on AKS. So the solution would be to deploy the metrics-server yourself. Here's how to do it:
 
 * Download the metrics-server deployment yamls [here](https://github.com/kubernetes-incubator/metrics-server/tree/master/deploy)
 * Run kubectl create -f ./--download-folder--/
