@@ -97,6 +97,9 @@ ENV CHROME_BIN /usr/bin/google-chrome
 CMD ["./start.sh"]
 ```
 
+Wait, how do I move my kubernetes credentials to the VSTS pod then? Well, the short answer is, you don't need to!
+That's the magic of hosting your release nodes in kuberenetes. If, however, you had a different cluster for your build stuff, and another cluster for workload stuff, then yes, you would have to somehow pass your /.kube/config file up (probably using a secret or configmap).
+
 Our First Helm Chart
 ================
 
