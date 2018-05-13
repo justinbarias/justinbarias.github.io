@@ -102,7 +102,7 @@ That's the magic of hosting your release nodes in kuberenetes. If, however, you 
 
 Our First Helm Chart
 ================
-
+`
 Now, we'll create a helm chart. Which is basically a collection of package metadata, and package sources (in the form of a couple of yaml files). A typical helm chart structure looks like this:
 
 ```
@@ -313,3 +313,4 @@ Watch out for part 2 ! Which will cover the following:
 * Monitoring (Prometheus + Grafana)
 * Extend helm charts to include ingress controller config (especially for production)
 * Modify production deployments to do rolling update policy on replication controllers, or do blue/green releases.
+* Ingress controllers and ingresses, as well as securing them with TLS via LetsEncrypt
