@@ -19,5 +19,4 @@ google_analytics: 'UA-77974211-1'
 # Build settings
 markdown: kramdown
 comments: true
-theme: jekyll-theme-modernist
 
