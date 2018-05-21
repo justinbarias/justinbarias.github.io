@@ -241,7 +241,7 @@ Spec:
 Status:
   Acme:
     Authorizations:
-      Account:  https://acme-v01.api.letsencrypt.org/acme/reg/34823779
+      Account:  https://acme-v01.api.letsencrypt.org/acme/reg/-----------
       Domain:   www.dotnetcoreapp.com
       Uri:      https://acme-v01.api.letsencrypt.org/acme/challenge/-------------------/----------
   Conditions:
