@@ -290,6 +290,7 @@ release_base=$1 #passed from a VSTS variable
 namespace=$3 #passed from the environment name in release management
 postgresPassword=$4 #secret variable in VSTS
 regcred=$2 #name of secret in kubernetes to pull image from
+build_id=$5 #build id for the immutable image tag
 
 #generate postgres release name
 postgres_releasename=$release_base-postgres
@@ -304,12 +305,96 @@ postgres_password=$(kubectl get secret --namespace $namespace $postgres_releasen
 base64connstring=$(echo "User ID=postgres;Password=$postgres_password;Host=$postgres_releasename-postgresql;Port=5432;Database=dotnetcoreappdb;Pooling=true;" | base64 --wrap=0; echo)
 
 #create helm deployment for dotnetcoreapp, here we pass registry credential name, connectionstring in base64, image/repo to pull from, image tag, and namespace to deploy to
-helm upgrade $dotnetcoreapp_releasename $PWD/helm/dotnetcoreapp --install --force --debug --set registry.credentials=$regcred --set connectionString.base64connstring=$base64connstring --set image.repo=dotnetcoreappci --set image.tag=latest --namespace $namespace
+helm upgrade $dotnetcoreapp_releasename $PWD/helm/dotnetcoreapp --install --force --debug --set registry.credentials=$regcred --set connectionString.base64connstring=$base64connstring --set image.repo=dotnetcoreappci --set image.tag=$build_id --namespace $namespace
 ```
+
+Helm chart for our App
+================
+The last piece of the puzzle, the helm chart for your application. (Which is used in the release scripts above).
+
+```
+---deploy
+----helm
+-----<application-name>
+------Chart.yaml
+------templates
+------deployment.yaml
+-------secrets.yaml
+```
+
+### Chart.yaml
+
+```yaml
+name: dotnetcoreapp
+version: 1.0.0
+```
+
+Pretty simple, the version here is **not** the app version, but rather, the chart version.
+
+### deployment.yaml
+
+Remember the ```bash helm upgrade``` command above with the --set arguments? These arguments get passed into **all the templates** we create and can be consumed globally. We use them in a template by invoking the Go template language syntax, for example:
+
+```Go
+.Values.Image.Tag
+```
+For the argument --set image.tag==tag-version
+
+This deployment.yaml template creates the deployment definition (which creates the pod, replica set).
+
+```yaml
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: { { printf "%s-%s" .Release.Name .Chart.Name | trunc 63 } }
+  labels:
+    app: { { printf "%s-%s" .Release.Name .Chart.Name | trunc 63 } }
+    version: { { .Chart.Version } }
+    release: { { .Release.Name } }
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: { { printf "%s-%s" .Release.Name .Chart.Name | trunc 63 } }
+        version: { { .Chart.Version } }
+        release: { { .Release.Name } }
+    spec:
+     imagePullSecrets:
+     - name: { { .Values.registry.credentials } }
+     containers:
+      - name: dotnetcoreapp
+        env:
+        - name: DbContextSettings__ConnectionString
+          valueFrom:
+           secretKeyRef:
+            name: { { printf "%s-%s-secret" .Release.Name .Chart.Name | trunc 63 } }
+            key: connString
+        image: { { printf "dotnetcoreappci/%s:%s" .Values.image.repo (toString .Values.image.tag)} }
+        ports:
+        - name: dotnet-port
+          containerPort: 5000
+```
+
+### secrets.yaml
+
+This template creates the secret which is consumed by our dotnetcore app. This is passed along the helm upgrade --set command.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: { { printf "%s-%s-secret" .Release.Name .Chart.Name | trunc 63 } }
+type: Opaque
+data:
+  connString: { {  .Values.connectionString.base64connstring } }
+```
+
+Obviously, you could do the same with configmaps. 
 
 This, is our CI-CD pipeline from build to release in a kubernetes cluster. 
 
-Watch out for part 2 ! Which will cover the following:
+Watch out for part 2 & 3 ! Which will cover the following:
 * Monitoring (Prometheus + Grafana)
 * Extend helm charts to include ingress controller config (especially for production)
 * Modify production deployments to do rolling update policy on replication controllers, or do blue/green releases.
