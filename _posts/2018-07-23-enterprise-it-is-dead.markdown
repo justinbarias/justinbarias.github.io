@@ -8,7 +8,7 @@ comments: true
 
 Apologies for the clickbait title - but this seems to be the trend in making outrageous opinion posts. Except this isn't that outrageous, but heavily opinionated. These thoughts are purely my own, and do not reflect the opinions of my employer. 
 
-Now - let's get this out of the way. Is Enterprise IT really dead? Not really. Nor will they be, as people who identify as part of enterprise IT seem to have the evolutionary gene of self preservation hardwired into every strand being. They simply will not die. There are a couple of external reasons as well why they will not:
+Now - let's get this out of the way. Is Enterprise IT really dead? Not really. Nor will they be, as people who identify as part of enterprise IT seem to have the evolutionary gene of self preservation hardwired into every strand of their being. They simply will not die. There are a couple of external reasons as well why they will not:
 
 1. Old school sales organisations in tech companies continue to stroke their ego (through lavish wine-and-dine activities to close deals and invitations to overseas conferences) and make them the centre of the IT world (or so they think)
 
@@ -82,9 +82,9 @@ All kernel modules are owned, maintained by Enterprise IT, while user space modu
 
 ## Wrapping up
 
-That all seems a bit too much, and might sound like drinking too much of "everyone is a software organisation, they just dont realise it yet". This applies differently to different industries, countries, with differing engineering maturity, and regulation requirements. 
+That all seems a bit too much, and might sound like drinking too much of the "everyone is a software organisation, they just dont realise it yet" coolaid. This applies differently to different industries, countries, with differing engineering maturity, and regulation requirements. 
 
-I still believe that the elimination of the "Enterprise IT" role will eventually happen, as business become more savvy with technology and the implications that come with it - and the discipline it requires. 
+I still believe that the evaporation of the "Enterprise IT" role will eventually happen, as business become more savvy with technology and the implications that come with it - and the discipline it requires. 
 
 One way or another, Enterprise IT must change.
 
