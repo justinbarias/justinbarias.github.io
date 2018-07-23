@@ -46,11 +46,11 @@ Now assuming you've setup kubectl, installing helm/tiller into K8s should be as 
 
 This gets the default context in your kube.config, and installs Tiller using the credentials specified.
 
-![Helminit](/assets/helm-init.png)
+![Helminit](./assets/helm-init.png)
 
 Have a look at the kube-system namespace and you should see a **tiller-deploy** deployment. 
 
-![TillerDeployment](/assets/deploy-tiller.png)
+![TillerDeployment](./assets/deploy-tiller.png)
 
 Prepping your build/release pipeline nodes
 -------------------
@@ -167,11 +167,11 @@ helm install .
 
 Which spits out the following:
 
-![VSTSHelmInstall](/assets/vsts-helm-install.png)
+![VSTSHelmInstall](./assets/vsts-helm-install.png)
 
 To verify, head over to your VSTS Account settings, and under agent pools:
 
-![VSTSAgentPods](/assets/vsts-pods.png)
+![VSTSAgentPods](./assets/vsts-pods.png)
 
 Voila! Free hosted VSTS nodes (well, not exactly, but we have cost effective ones).
 
@@ -226,18 +226,18 @@ Before we can push images to dockerhub/private registries and deploy stuff to ku
 
 For kubernetes, it's as simple as copying the contents of your ~/.kube/config file into this dialog box:
 
-![k8ssp](/assets/k8sserviceendpoint.png)
+![k8ssp](./assets/k8sserviceendpoint.png)
 
 Creating a dockerhub service endpoint is easy enough:
 
-![dockerhubsp](/assets/dockerhubsp.png)
+![dockerhubsp](./assets/dockerhubsp.png)
 
 Build definition
 ================
 
 Nothing special with this build definition, aside from the specific image build tasks for master/develop. 
 
-![builddef](/assets/BuildDef.png)
+![builddef](./assets/BuildDef.png)
 
 The only thing of note, possibly is the "Publish Artifact" phase. Wait, our artifact is a docker image, right? True!
 
@@ -266,7 +266,7 @@ Release definition
 
 Nothing special with this as well. Obviously we want our release environments to mirror our kubernetes namespaces. 
 
-![releasedef](/assets/ReleaseDef.png)
+![releasedef](./assets/ReleaseDef.png)
 
 We've got a trigger configured to automatically deploy to staging.
 
@@ -274,7 +274,7 @@ For production, we'd either want to do a manual deployment approval, or probably
 
 Let's look at the single task we have in our release:
 
-![deployhelmchart](/assets/deployhelmchart.png)
+![deployhelmchart](./assets/deployhelmchart.png)
 
 We simply invoke deploy.sh. Pass in a couple of arguments - which will be described later.
 $(releaseName) is simply $(Release.DefinitionName) + $(Release.Environment).
