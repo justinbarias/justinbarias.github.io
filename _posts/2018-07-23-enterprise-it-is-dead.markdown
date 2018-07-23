@@ -36,7 +36,7 @@ However, based on what I learned recently, there *might* be another way.
 
 I've definitely gone out of my way to paint Enteprise IT in a bad light - however, they do have value within organisations. Especially in large organisations in highly regulated industries, they identify, measure, own, and mitigate risk outcomes. This is the single largest reason why Enterprise IT is the way they are. And demanding them to be quick and agile is a huge ask.
 
-Their slowness mirrors how outdated regulation normally is - or how outdated the **understanding of the spirit** of regulation. I am in no way certified to make legal claims or statements, however, in court proceedings and outcomes, judges *sometimes* make rulings against the norm (or against legal precedent) as long as it is within the **spirit of the law in question**. Another factor in the slowness of IT is the lack of automation.
+Their slowness mirrors how outdated regulation normally is - or how outdated the **understanding of the spirit** of regulation. I am in no way certified to make legal claims or statements, however, in court proceedings and outcomes, judges *sometimes* make rulings against the norm (or against legal precedent) as long as it is within the **spirit of the law in question**. Another factor in the slowness of IT is the lack of automation. *Edit: [Al Sheehan](https://www.linkedin.com/in/alsheehan/) mentioned that outsourcing plays a huge part in this as well! Good point!*
 
 ## The "other" way
 
