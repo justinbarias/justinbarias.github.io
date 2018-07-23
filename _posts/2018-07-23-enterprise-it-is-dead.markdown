@@ -12,7 +12,7 @@ Now - let's get this out of the way. Is Enterprise IT really dead? Not really. N
 
 1. Old school sales organisations in tech companies continue to stroke their ego (through lavish wine-and-dine activities to close deals and invitations to overseas conferences) and make them the centre of the IT world (or so they think)
 
-2. They have (in larger organisations) made it inevitable for the business to do any meaningful business without going through Enterprise IT. In essence, they have taken legacy system of records, which systems of engagements need to interface with to work properly. 
+2. They have (in larger organisations) made it inevitable for the business to do any meaningful business without going through Enterprise IT. In essence, they have taken legacy system of records hostage, which systems of engagements need to interface with to work properly. 
 
 ## What are the consequences?
 
