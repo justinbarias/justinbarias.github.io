@@ -80,16 +80,16 @@ const experiences = [
 <main class="page">
   <!-- Hero -->
   <section class="section hero">
-    <div class="inner" style="display: flex; align-items: center; gap: 2rem;">
-      <div style="flex: 1; text-align: center;">
-        <p> My name is </p>
+    <div class="inner hero-content">
+      <div class="hero-text">
+        <p class="hero-greeting"> My name is </p>
         <h1 class="name">Justin</h1>
         <p class="role">Lead Software Engineer</p>
         <p class="company">Department of Employment and Workplace</p>
       </div>
-      <div style="flex: 1; text-align: center;">
+      <div class="hero-image">
         <img src="/assets/profile_anime.png" alt="My anime profile image" 
-             style="max-width: 100%; height: auto; border-radius: 50%;" />
+             class="profile-img" />
       </div>
     </div>
   </section>
@@ -98,10 +98,14 @@ const experiences = [
   <section class="section summary">
     <div class="inner">
       <h2>About Me</h2>
-      <p class="lead">
-        As a Lead Software and AI Engineer on the department's Innovation team, I build and design scalable experimentation and AIOps platforms that enable cheap, fast, evaluation-based AI experiments.
-        These platforms ensure a consistent flow of ideas from experimentation to production, empowering teams to deliver impactful solutions efficiently.
-      </p>
+      <div class="summary-content">
+        <p class="lead summary-text">
+          As a Lead Software and AI Engineer on the department's Innovation team, I build and design scalable experimentation and AIOps platforms.
+        </p>
+        <p class="lead summary-text">
+          These platforms enable cheap, fast, evaluation-based AI experiments and ensure a consistent flow of ideas from experimentation to production, empowering teams to deliver impactful solutions efficiently.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -177,14 +181,22 @@ const experiences = [
 
 <style>
   /* Scoped Astro styles (replacing utility classes) */
+  * {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+  
   .page {
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
     scroll-snap-type: y mandatory;
     -webkit-overflow-scrolling: touch;
     /* match site background and text color */
     background-color: var(--background-body);
     color: var(--text-main);
+    width: 100vw;
+    max-width: 100%;
   }
 
   .section {
@@ -192,15 +204,58 @@ const experiences = [
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 10rem 1.25rem 1.5rem;
+    padding: 8rem 1.25rem 1.5rem;
     scroll-snap-align: start;
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 
   .inner {
     max-width: 900px;
     width: 100%;
     text-align: center;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    min-width: 0; /* Allows flex items to shrink below content size */
+  }
+
+  /* Hero Section Styles */
+  .hero-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    text-align: left;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .hero-text {
+    flex: 1;
+    text-align: center;
+    min-width: 0; /* Allows flex item to shrink */
+    max-width: 100%;
+  }
+
+  .hero-image {
+    flex: 1;
+    text-align: center;
+    min-width: 0; /* Allows flex item to shrink */
+    max-width: 100%;
+  }
+
+  .hero-greeting {
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .profile-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50%;
+    max-height: 400px;
+    width: auto;
   }
 
   /* keep sections transparent so the component matches the site's background */
@@ -289,12 +344,70 @@ const experiences = [
     opacity: 0.7;
   }
 
-  .name { font-size: 3.5rem; margin: 0 0 0.5rem; font-weight: 700; }
-  .role { font-size: 1.5rem; margin: 0 0 0.25rem; opacity: 0.95; }
-  .company { font-size: 1.125rem; margin: 0; opacity: 0.85; }
+  .name { 
+    font-size: clamp(2.5rem, 5vw, 3.5rem); 
+    margin: 0 0 0.5rem; 
+    font-weight: 700;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .role { 
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem); 
+    margin: 0 0 0.25rem; 
+    opacity: 0.95;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .company { 
+    font-size: clamp(1rem, 2vw, 1.125rem); 
+    margin: 0; 
+    opacity: 0.85;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
 
-  h2 { font-size: 2rem; margin-bottom: 1rem; }
-  .lead { font-size: 1.125rem; line-height: 1.8; margin: 0 auto; }
+  h2 { 
+    font-size: clamp(1.5rem, 3vw, 2rem); 
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .lead { 
+    font-size: clamp(1rem, 2vw, 1.125rem); 
+    line-height: 1.8; 
+    margin: 0 auto;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .summary-content {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .summary-text {
+    text-align: left;
+    margin: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    white-space: normal;
+  }
+
+  .hero-greeting {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    margin-bottom: 0.5rem;
+  }
 
   .list { list-style: none; padding: 0; margin: 0; font-size: 1.05rem; line-height: 1.8; }
   .list li { margin: 0.5rem 0; }
@@ -310,7 +423,65 @@ const experiences = [
   }
 
   /* Responsive */
+  @media (max-width: 1024px) {
+    .section {
+      padding: 6rem 1rem 1.5rem;
+    }
+    
+    .inner {
+      max-width: 800px;
+      padding: 0 0.75rem;
+    }
+
+    .hero-content {
+      gap: 2.5rem;
+    }
+
+    .summary-content {
+      max-width: 600px;
+      gap: 1rem;
+    }
+    
+    .summary-text {
+      font-size: clamp(1rem, 2.2vw, 1.1rem);
+    }
+  }
+
   @media (max-width: 768px) {
+    .section {
+      padding: 4rem 0.75rem 1.25rem;
+    }
+    
+    .inner {
+      padding: 0 0.5rem;
+    }
+
+    .hero-content {
+      flex-direction: column;
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .hero-text, .hero-image {
+      flex: none;
+      width: 100%;
+    }
+
+    .profile-img {
+      max-height: 250px;
+    }
+
+    .summary-content {
+      max-width: 100%;
+      gap: 0.875rem;
+    }
+    
+    .summary-text {
+      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+      line-height: 1.7;
+      text-align: center;
+    }
+
     .skills-grid { 
       grid-template-columns: repeat(2, 1fr); 
       gap: 1.25rem;
@@ -318,34 +489,132 @@ const experiences = [
   }
 
   @media (max-width: 640px) {
-    .name { font-size: 2.25rem; }
+    .section {
+      padding: 3rem 5vw 2rem;
+      min-height: auto;
+      overflow-x: hidden;
+    }
+    
+    .hero.section {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+    
+    .inner {
+      padding: 0 3vw;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .hero-content {
+      gap: 1.5rem;
+    }
+
+    .profile-img {
+      max-height: 200px;
+    }
+
+    .summary-content {
+      gap: 1rem;
+      padding: 0 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    
+    .summary-text {
+      font-size: clamp(0.875rem, 4vw, 1rem);
+      line-height: 1.6;
+      padding: 0 0.75rem;
+      text-align: center;
+    }
+
     .skills-grid { 
       grid-template-columns: 1fr; 
       gap: 1rem;
     }
+    
     .contact-intro {
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 2vw, 1rem);
       margin-bottom: 2rem;
     }
+    
     .contact-links {
       gap: 1.25rem;
     }
+    
     .contact-link {
       padding: 1.25rem;
       gap: 1.25rem;
     }
+    
     .contact-icon {
       width: 40px;
       height: 40px;
     }
+    
     .contact-title {
-      font-size: 1rem;
+      font-size: clamp(0.9rem, 2vw, 1rem);
     }
+    
     .contact-subtitle {
-      font-size: 0.875rem;
+      font-size: clamp(0.8rem, 1.8vw, 0.875rem);
     }
-    .page { scroll-padding-top: 20px; }
-    .inner { padding: 0 0.5rem; }
+    
+    .page { 
+      scroll-padding-top: 20px; 
+    }
+  }
+
+  @media (max-width: 480px) {
+    .section {
+      padding: 2.5rem 4vw 1.5rem;
+      overflow-x: hidden;
+    }
+    
+    .inner {
+      padding: 0 2vw;
+      width: 100%;
+    }
+
+    .summary-content {
+      gap: 0.875rem;
+      padding: 0 0.25rem;
+    }
+    
+    .summary-text {
+      font-size: clamp(0.8rem, 4.5vw, 0.95rem);
+      line-height: 1.55;
+      padding: 0 0.5rem;
+    }
+
+    h2 {
+      font-size: clamp(1.25rem, 5vw, 1.75rem);
+      margin-bottom: 0.875rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .section {
+      padding: 2rem 3vw 1.25rem;
+      overflow-x: hidden;
+    }
+    
+    .inner {
+      padding: 0 1vw;
+      width: 100%;
+    }
+    
+    .summary-content {
+      gap: 0.75rem;
+      padding: 0;
+    }
+    
+    .summary-text {
+      font-size: clamp(0.75rem, 5vw, 0.9rem);
+      line-height: 1.5;
+      padding: 0 0.75rem;
+    }
   }
 
   /* Hide scrollbar but keep scrolling functional */
@@ -362,6 +631,18 @@ const experiences = [
     gap: 0.5rem;
     z-index: 9999;
     transition: opacity 200ms ease;
+  }
+
+  @media (max-width: 640px) {
+    :global(.scroll-hints) {
+      right: 0.5rem;
+      bottom: 1.5rem;
+    }
+    
+    :global(.scroll-arrow) {
+      width: 36px;
+      height: 36px;
+    }
   }
 
   :global(.scroll-hints.hidden) { opacity: 0; pointer-events: none; }
