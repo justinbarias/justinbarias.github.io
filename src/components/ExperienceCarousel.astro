@@ -1,0 +1,372 @@
+---
+// ExperienceCarousel.astro
+export interface Props {
+  experiences: Array<{
+    id: number;
+    title: string;
+    company: string;
+    duration: string;
+    achievements: string[];
+    logo?: string;
+  }>;
+}
+
+const { experiences } = Astro.props;
+---
+
+<div class="experience-carousel">
+  <h2>Experience</h2>
+  <div class="carousel-container">
+    <div class="carousel-track" id="experienceTrack">
+      {experiences.map((exp, index) => (
+        <div class="experience-slide" data-slide={index}>
+          <div class="experience-item">
+            <div class="experience-header">
+              <div class="header-top">
+                {exp.logo && (
+                  <img src={exp.logo} alt={`${exp.company} logo`} class="company-logo" />
+                )}
+                <div class="header-text">
+                  <h3 class="job-title">{exp.title}</h3>
+                  <span class="company">{exp.company}</span>
+                </div>
+              </div>
+              <span class="duration">{exp.duration}</span>
+            </div>
+            <ul class="achievements">
+              {exp.achievements.map(achievement => (
+                <li>{achievement}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Navigation buttons -->
+    <button class="carousel-btn carousel-btn-prev" id="prevBtn" aria-label="Previous experience">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+      </svg>
+    </button>
+    <button class="carousel-btn carousel-btn-next" id="nextBtn" aria-label="Next experience">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Dots indicator -->
+  <div class="carousel-dots">
+    {experiences.map((_, index) => (
+      <button 
+        class={`dot ${index === 0 ? 'active' : ''}`} 
+        data-slide={index}
+        aria-label={`Go to experience ${index + 1}`}
+      ></button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .experience-carousel {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: inherit;
+  }
+
+  .carousel-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    background: rgba(255,255,255,0.02);
+    padding: 1rem;
+  }
+
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    will-change: transform;
+  }
+
+  .experience-slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 0 1rem;
+  }
+
+  .experience-item {
+    padding: 2rem;
+    text-align: left;
+    background: rgba(255,255,255,0.03);
+    border-radius: 12px;
+    border-left: 4px solid rgba(255,255,255,0.3);
+    margin: 0 0.5rem;
+  }
+
+  .experience-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .company-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: contain;
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+
+  .header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .job-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: inherit;
+    line-height: 1.3;
+  }
+
+  .company {
+    display: block;
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .duration {
+    display: block;
+    font-size: 1rem;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  .achievements {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .achievements li {
+    margin: 0.75rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+    font-size: 1.05rem;
+  }
+
+  .achievements li:before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.6);
+    font-weight: bold;
+  }
+
+  /* Navigation buttons */
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+  }
+
+  .carousel-btn:hover {
+    background: rgba(0,0,0,0.7);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-btn-prev {
+    left: 1rem;
+  }
+
+  .carousel-btn-next {
+    right: 1rem;
+  }
+
+  /* Dots indicator */
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: rgba(255,255,255,0.8);
+    transform: scale(1.2);
+  }
+
+  .dot:hover {
+    background: rgba(255,255,255,0.6);
+  }
+
+  /* Responsive design */
+  @media (max-width: 640px) {
+    .experience-item {
+      padding: 1.5rem;
+      margin: 0;
+    }
+    
+    .header-top {
+      gap: 0.75rem;
+    }
+    
+    .company-logo {
+      width: 40px;
+      height: 40px;
+      padding: 6px;
+    }
+    
+    .job-title {
+      font-size: 1.25rem;
+    }
+    
+    .carousel-btn {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .carousel-btn-prev {
+      left: 0.5rem;
+    }
+    
+    .carousel-btn-next {
+      right: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  class ExperienceCarousel {
+    constructor() {
+      this.currentSlide = 0;
+      this.totalSlides = document.querySelectorAll('.experience-slide').length;
+      this.track = document.getElementById('experienceTrack');
+      this.prevBtn = document.getElementById('prevBtn');
+      this.nextBtn = document.getElementById('nextBtn');
+      this.dots = document.querySelectorAll('.dot');
+      
+      this.init();
+    }
+    
+    init() {
+      // Navigation button events
+      this.prevBtn?.addEventListener('click', () => this.prevSlide());
+      this.nextBtn?.addEventListener('click', () => this.nextSlide());
+      
+      // Dot navigation events
+      this.dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => this.goToSlide(index));
+      });
+      
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') this.prevSlide();
+        if (e.key === 'ArrowRight') this.nextSlide();
+      });
+      
+      // Touch/swipe support
+      let startX = 0;
+      let isDragging = false;
+      
+      this.track?.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+      });
+      
+      this.track?.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diff = startX - endX;
+        
+        if (Math.abs(diff) > 50) { // Minimum swipe distance
+          if (diff > 0) {
+            this.nextSlide();
+          } else {
+            this.prevSlide();
+          }
+        }
+        
+        isDragging = false;
+      });
+      
+      // Auto-advance (optional)
+      // setInterval(() => this.nextSlide(), 8000);
+    }
+    
+    updateCarousel() {
+      // Move the track
+      if (this.track) {
+        this.track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
+      }
+      
+      // Update dots
+      this.dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === this.currentSlide);
+      });
+    }
+    
+    nextSlide() {
+      this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+      this.updateCarousel();
+    }
+    
+    prevSlide() {
+      this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+      this.updateCarousel();
+    }
+    
+    goToSlide(index) {
+      this.currentSlide = index;
+      this.updateCarousel();
+    }
+  }
+  
+  // Initialize when DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    new ExperienceCarousel();
+  });
+</script>
