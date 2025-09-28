@@ -1,5 +1,8 @@
 ---
 // ExperienceCarousel.astro
+// @ts-ignore
+import { Swiper, SwiperWrapper, SwiperSlide, SwiperPagination } from "astro-swiper";
+
 export interface Props {
   experiences: Array<{
     id: number;
@@ -11,15 +14,28 @@ export interface Props {
   }>;
 }
 
+type Experience = Props['experiences'][0];
+
 const { experiences } = Astro.props;
 ---
 
 <div class="experience-carousel">
   <h2>Experience</h2>
-  <div class="carousel-container">
-    <div class="carousel-track" id="experienceTrack">
-      {experiences.map((exp, index) => (
-        <div class="experience-slide" data-slide={index}>
+  <Swiper
+    options={{
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: true,
+      },
+      loop: true,
+      pagination: {
+        el: ".swiper-pagination",
+      },
+    }}
+  >
+    <SwiperWrapper>
+      {experiences.map((exp: Experience) => (
+        <SwiperSlide>
           <div class="experience-item">
             <div class="experience-header">
               <div class="header-top">
@@ -34,45 +50,22 @@ const { experiences } = Astro.props;
               <span class="duration">{exp.duration}</span>
             </div>
             <ul class="achievements">
-              {exp.achievements.map(achievement => (
+              {exp.achievements.map((achievement: string) => (
                 <li>{achievement}</li>
               ))}
             </ul>
           </div>
-        </div>
+        </SwiperSlide>
       ))}
-    </div>
-    
-    <!-- Navigation buttons -->
-    <button class="carousel-btn carousel-btn-prev" id="prevBtn" aria-label="Previous experience">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-      </svg>
-    </button>
-    <button class="carousel-btn carousel-btn-next" id="nextBtn" aria-label="Next experience">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-      </svg>
-    </button>
-  </div>
-  
-  <!-- Dots indicator -->
-  <div class="carousel-dots">
-    {experiences.map((_, index) => (
-      <button 
-        class={`dot ${index === 0 ? 'active' : ''}`} 
-        data-slide={index}
-        aria-label={`Go to experience ${index + 1}`}
-      ></button>
-    ))}
-  </div>
+    </SwiperWrapper>
+    <SwiperPagination />
+  </Swiper>
 </div>
 
 <style>
   .experience-carousel {
     max-width: 900px;
     margin: 0 auto;
-    text-align: center;
   }
 
   h2 {
@@ -81,26 +74,18 @@ const { experiences } = Astro.props;
     color: inherit;
   }
 
-  .carousel-container {
-    position: relative;
-    overflow: hidden;
+  /* Swiper container styling */
+  .swiper {
     border-radius: 16px;
-    background: rgba(255,255,255,0.02);
+    background: var(--background-body);
     padding: 1rem;
-    transition: height 0.5s ease-in-out;
+    overflow: visible;
   }
 
-  .carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    will-change: transform;
-  }
-
-  .experience-slide {
-    min-width: 100%;
+  .swiper-slide {
     width: 100%;
     box-sizing: border-box;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
   }
 
   .experience-item {
@@ -109,7 +94,9 @@ const { experiences } = Astro.props;
     background: rgba(255,255,255,0.03);
     border-radius: 12px;
     border-left: 4px solid rgba(255,255,255,0.3);
-    margin: 0 0.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .experience-header {
@@ -184,64 +171,26 @@ const { experiences } = Astro.props;
     font-weight: bold;
   }
 
-  /* Navigation buttons */
-  .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0,0,0,0.5);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    z-index: 10;
-    backdrop-filter: blur(10px);
+  /* Swiper pagination styling */
+  :global(.swiper-pagination) {
+    position: relative !important;
+    margin-top: 1.5rem !important;
   }
 
-  .carousel-btn:hover {
-    background: rgba(0,0,0,0.7);
-    transform: translateY(-50%) scale(1.1);
+  :global(.swiper-pagination-bullet) {
+    background: rgba(255,255,255,0.3) !important;
+    width: 12px !important;
+    height: 12px !important;
+    transition: all 0.3s ease !important;
   }
 
-  .carousel-btn-prev {
-    left: 1rem;
+  :global(.swiper-pagination-bullet-active) {
+    background: rgba(255,255,255,0.8) !important;
+    transform: scale(1.2) !important;
   }
 
-  .carousel-btn-next {
-    right: 1rem;
-  }
-
-  /* Dots indicator */
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255,255,255,0.3);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .dot.active {
-    background: rgba(255,255,255,0.8);
-    transform: scale(1.2);
-  }
-
-  .dot:hover {
-    background: rgba(255,255,255,0.6);
+  :global(.swiper-pagination-bullet:hover) {
+    background: rgba(255,255,255,0.6) !important;
   }
 
   /* Responsive design */
@@ -250,17 +199,16 @@ const { experiences } = Astro.props;
       max-width: 100%;
     }
 
-    .carousel-container {
+    .swiper {
       padding: 0.75rem;
     }
 
-    .experience-slide {
-      padding: 0 0.5rem;
+    .swiper-slide {
+      padding: 0 0.25rem;
     }
 
     .experience-item {
       padding: 1.75rem;
-      margin: 0;
     }
     
     .header-top {
@@ -293,17 +241,16 @@ const { experiences } = Astro.props;
   }
 
   @media (max-width: 640px) {
-    .carousel-container {
+    .swiper {
       padding: 0.5rem;
     }
 
-    .experience-slide {
-      padding: 0 0.25rem;
+    .swiper-slide {
+      padding: 0 0.125rem;
     }
 
     .experience-item {
       padding: 1.5rem;
-      margin: 0;
     }
     
     .header-top {
@@ -334,27 +281,14 @@ const { experiences } = Astro.props;
       padding-left: 1.25rem;
     }
     
-    .carousel-btn {
-      width: 40px;
-      height: 40px;
-    }
-    
-    .carousel-btn-prev {
-      left: 0.5rem;
-    }
-    
-    .carousel-btn-next {
-      right: 0.5rem;
+    :global(.swiper-pagination) {
+      margin-top: 1.25rem !important;
     }
 
-    .carousel-dots {
-      margin-top: 1.25rem;
-      gap: 0.5rem;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
+    :global(.swiper-pagination-bullet) {
+      width: 10px !important;
+      height: 10px !important;
+      margin: 0 4px !important;
     }
   }
 
@@ -364,11 +298,11 @@ const { experiences } = Astro.props;
       margin-bottom: 1.5rem;
     }
 
-    .carousel-container {
+    .swiper {
       padding: 0.375rem;
     }
 
-    .experience-slide {
+    .swiper-slide {
       padding: 0;
     }
 
@@ -415,27 +349,14 @@ const { experiences } = Astro.props;
       padding-left: 1rem;
     }
     
-    .carousel-btn {
-      width: 36px;
-      height: 36px;
-    }
-    
-    .carousel-btn-prev {
-      left: 0.25rem;
-    }
-    
-    .carousel-btn-next {
-      right: 0.25rem;
+    :global(.swiper-pagination) {
+      margin-top: 1rem !important;
     }
 
-    .carousel-dots {
-      margin-top: 1rem;
-      gap: 0.375rem;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
+    :global(.swiper-pagination-bullet) {
+      width: 8px !important;
+      height: 8px !important;
+      margin: 0 3px !important;
     }
   }
 
@@ -445,7 +366,7 @@ const { experiences } = Astro.props;
       margin-bottom: 1.25rem;
     }
 
-    .carousel-container {
+    .swiper {
       padding: 0.25rem;
     }
 
@@ -487,150 +408,11 @@ const { experiences } = Astro.props;
       font-size: 0.8rem;
     }
     
-    .carousel-btn {
-      width: 32px;
-      height: 32px;
-    }
-    
-    .carousel-btn svg {
-      width: 16px;
-      height: 16px;
-    }
-
-    .dot {
-      width: 6px;
-      height: 6px;
+    :global(.swiper-pagination-bullet) {
+      width: 6px !important;
+      height: 6px !important;
+      margin: 0 2px !important;
     }
   }
 </style>
 
-<script>
-  class ExperienceCarousel {
-    constructor() {
-      this.currentSlide = 0;
-      this.totalSlides = document.querySelectorAll('.experience-slide').length;
-      this.track = document.getElementById('experienceTrack');
-      this.container = document.querySelector('.carousel-container');
-      this.prevBtn = document.getElementById('prevBtn');
-      this.nextBtn = document.getElementById('nextBtn');
-      this.dots = document.querySelectorAll('.dot');
-      
-      this.init();
-    }
-    
-    init() {
-      // Navigation button events
-      this.prevBtn?.addEventListener('click', () => this.prevSlide());
-      this.nextBtn?.addEventListener('click', () => this.nextSlide());
-      
-      // Dot navigation events
-      this.dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => this.goToSlide(index));
-      });
-      
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') this.prevSlide();
-        if (e.key === 'ArrowRight') this.nextSlide();
-      });
-      
-      // Touch/swipe support with improved mobile experience
-      let startX = 0;
-      let startY = 0;
-      let isDragging = false;
-      
-      this.track?.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        isDragging = true;
-      }, { passive: true });
-      
-      this.track?.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        
-        // Prevent scrolling during horizontal swipe
-        const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
-        const diffX = Math.abs(currentX - startX);
-        const diffY = Math.abs(currentY - startY);
-        
-        if (diffX > diffY) {
-          e.preventDefault();
-        }
-      }, { passive: false });
-      
-      this.track?.addEventListener('touchend', (e) => {
-        if (!isDragging) return;
-        
-        const endX = e.changedTouches[0].clientX;
-        const endY = e.changedTouches[0].clientY;
-        const diffX = startX - endX;
-        const diffY = startY - endY;
-        
-        // Only trigger swipe if horizontal movement is greater than vertical
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-          if (diffX > 0) {
-            this.nextSlide();
-          } else {
-            this.prevSlide();
-          }
-        }
-        
-        isDragging = false;
-      }, { passive: true });
-      
-      // Auto-advance (optional)
-      // setInterval(() => this.nextSlide(), 8000);
-      
-      // Set initial height
-      setTimeout(() => this.adjustContainerHeight(), 100);
-    }
-    
-    updateCarousel() {
-      // Move the track
-      if (this.track) {
-        this.track.style.transform = `translateX(-${this.currentSlide * 100}%)`;
-      }
-      
-      // Update dots
-      this.dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === this.currentSlide);
-      });
-      
-      // Adjust container height based on current slide
-      this.adjustContainerHeight();
-    }
-    
-    adjustContainerHeight() {
-      if (!this.container) return;
-      
-      const currentSlide = document.querySelector(`[data-slide="${this.currentSlide}"]`);
-      if (currentSlide) {
-        const slideHeight = currentSlide.scrollHeight;
-        // Dynamic padding based on screen size
-        const containerPadding = window.innerWidth <= 360 ? 8 : window.innerWidth <= 480 ? 12 : window.innerWidth <= 640 ? 16 : 32;
-        this.container.style.height = `${slideHeight + containerPadding}px`;
-      }
-    }
-    
-    nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
-      this.updateCarousel();
-    }
-    
-    prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
-      this.updateCarousel();
-    }
-    
-    goToSlide(index) {
-      this.currentSlide = index;
-      this.updateCarousel();
-    }
-  }
-  
-  // Initialize when DOM is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    new ExperienceCarousel();
-  });
-</script>
