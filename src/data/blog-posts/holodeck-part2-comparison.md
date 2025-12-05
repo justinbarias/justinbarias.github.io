@@ -1,177 +1,172 @@
 ---
-title: "HoloDeck Part 2: AI Agent Platforms Compared"
+title: "HoloDeck Part 2: What's Out There for AI Agents"
 slug: holodeck-part2-comparison
 publishDate: 15 Nov 2024
-description: A comprehensive comparison of AI agent platforms - HoloDeck vs LangSmith, MLflow, PromptFlow, Azure AI Foundry, AWS Bedrock, and Google Vertex AI. Find out which platform fits your needs.
+description: A look at the current landscape of AI agent platforms - LangSmith, MLflow, PromptFlow, and the major cloud providers. What they do well, what's missing.
 ---
 
-In [Part 1](/blog/holodeck-part1-problem), we explored the chaos of modern AI agent development. Now let's examine the platforms attempting to solve this problem—and where they fall short.
+In [Part 1](/blog/holodeck-part1-problem), I talked about why agent development feels broken. Before building something myself, I spent time looking at what's already out there. Here's what I found.
 
 ---
 
 ## This is Part 2 of a 3-Part Series
 
-1. [The AI Agent Crisis](/blog/holodeck-part1-problem) - What's broken in agent development
-2. **AI Agent Platforms Compared** (You are here)
-3. [Building Agents with HoloDeck](/blog/holodeck-part3-solution) - The architecture, methodology, and getting started guide
+1. [Why It Feels Broken](/blog/holodeck-part1-problem) - What's wrong with agent development
+2. **What's Out There** (You are here)
+3. [What I'm Building](/blog/holodeck-part3-solution) - HoloDeck's approach and how it works
 
 ---
 
-## The Competitive Landscape
+## The Landscape
 
-Several platforms attempt to solve parts of the agent development problem. HoloDeck fills a critical gap: **the only open-source, self-hosted platform designed specifically for building, testing, and orchestrating AI agents through pure YAML configuration.** Built for software engineers with native CI/CD integration.
+A bunch of platforms tackle parts of this problem. I wanted something open-source, self-hosted, and config-driven—something that fits into existing CI/CD workflows without vendor lock-in. That shaped how I evaluated these tools.
 
 ---
 
 ## Developer Tools & Frameworks
 
-### vs. **LangSmith** (LangChain Team)
+### LangSmith (LangChain Team)
 
-| Aspect                  | HoloDeck                                                                                     | LangSmith                              |
-| ----------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------- |
-| **Deployment Model**    | Self-hosted (open-source)                                                                    | **SaaS only** (cloud-dependent)        |
-| **CI/CD Integration**   | **Native CLI** - integrates in any CI/CD pipeline (GitHub Actions, GitLab CI, Jenkins, etc.) | API-based, requires cloud connectivity |
-| **Agent Definition**    | Pure YAML (no code)                                                                          | Python code + LangChain SDK            |
-| **Primary Focus**       | Agent experimentation & deployment                                                           | Production observability & tracing     |
-| **Agent Orchestration** | Multi-agent patterns (sequential, concurrent, handoff)                                       | Not designed for multi-agent workflows |
-| **Use Case**            | Build agents fast, test hypotheses, deploy locally                                           | Monitor & debug production LLM apps    |
-| **Vendor Lock-in**      | None (MIT open-source)                                                                       | Complete (SaaS dependency)             |
-| **Agent Evaluation**    | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge, custom evaluators, agentevals package (no NLP metrics) |
-| **Self-Hosted LLMs**    | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                            | Via LangChain integrations (tracing only, SaaS platform)   |
+LangSmith is really good at what it does—production observability and tracing for LangChain apps. If you're already in the LangChain ecosystem and need monitoring, it's solid.
 
----
+| Aspect                  | HoloDeck                                                                    | LangSmith                              |
+| ----------------------- | --------------------------------------------------------------------------- | -------------------------------------- |
+| **Deployment Model**    | Self-hosted (open-source)                                                   | SaaS only                              |
+| **CI/CD Integration**   | CLI-based, works in any pipeline                                            | API-based, needs cloud connectivity    |
+| **Agent Definition**    | Pure YAML                                                                   | Python code + LangChain SDK            |
+| **Primary Focus**       | Agent experimentation & deployment                                          | Production observability & tracing     |
+| **Agent Orchestration** | Multi-agent patterns                                                        | Not designed for multi-agent workflows |
+| **Agent Evaluation**    | Custom criteria, LLM-as-judge, NLP metrics (BLEU, METEOR, ROUGE, F1)        | LLM-as-judge, custom evaluators        |
+| **Self-Hosted LLMs**    | Native support (Ollama, vLLM, OpenAI-compatible)                            | Via LangChain integrations             |
 
-### vs. **MLflow GenAI** (Databricks)
-
-| Aspect                      | HoloDeck                                                                 | MLflow GenAI                                                 |
-| --------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------ |
-| **CI/CD Integration**       | **CLI-native** - single commands for test, validate, deploy in pipelines | Python SDK + REST API, requires infrastructure setup         |
-| **Infrastructure**          | Lightweight, portable                                                    | **Heavy infrastructure** (ML tracking, Databricks-dependent) |
-| **Agent Support**           | Purpose-built for agents                                                 | Not designed for agents; focuses on model evaluation         |
-| **Focus**                   | Build and deploy agents                                                  | ML experiment tracking and model comparison                  |
-| **Multi-Agent**             | Native orchestration patterns                                            | Single model/variant comparison focus                        |
-| **Complexity**              | Minimal (YAML)                                                           | High (ML engineering mindset required)                       |
-| **Agent Evaluation**        | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge scorers, custom scorers (limited NLP metrics)   |
-| **Self-Hosted LLMs**        | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                            | Configurable model providers (Databricks-centric)            |
+Different tools for different problems. LangSmith is about monitoring production apps; I was looking for something to help with the build-and-test loop.
 
 ---
 
-### vs. **Microsoft PromptFlow**
+### MLflow GenAI (Databricks)
 
-| Aspect                  | HoloDeck                                                                          | PromptFlow                                                  |
-| ----------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **CI/CD Integration**   | **CLI-first design** - test, validate, deploy via shell commands in any CI system | Python SDK + Azure-centric tooling, requires infrastructure |
-| **Scope**               | **Full agent lifecycle** (build, test, deploy agents)                             | **Individual tools & functions only** (not agent-level)     |
-| **Design Target**       | Multi-agent workflows & orchestration                                             | Single tool/AI function development                         |
-| **Configuration**       | Pure YAML (declarative agent)                                                          | Visual flow graphs + low-code Python                        |
-| **Agent Orchestration** | Native multi-agent patterns (sequential, concurrent, handoff, group chat)         | Not designed for multi-agent orchestration                  |
-| **Self-Hosted**         | Yes (full support)                                                                | Limited (designed for Azure)                                |
-| **Agent Evaluation**    | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge (GPT-based), F1/BLEU/ROUGE, limited agent-specific metrics |
-| **Self-Hosted LLMs**    | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                             | OpenAI-compatible API workaround (not native, Azure-centric) |
+MLflow is a beast for ML experiment tracking. Their GenAI additions are interesting, but it's designed for model comparison rather than agent workflows. If you're already using MLflow for ML ops, the GenAI features slot in nicely.
 
----
+| Aspect                      | HoloDeck                                              | MLflow GenAI                                   |
+| --------------------------- | ----------------------------------------------------- | ---------------------------------------------- |
+| **CI/CD Integration**       | CLI-native                                            | Python SDK + REST API                          |
+| **Infrastructure**          | Lightweight, portable                                 | Heavy (ML tracking server, often Databricks)   |
+| **Agent Support**           | Purpose-built for agents                              | Focused on model evaluation                    |
+| **Multi-Agent**             | Native orchestration patterns                         | Single model/variant comparison                |
+| **Complexity**              | Minimal (YAML)                                        | Higher (ML engineering mindset)                |
+| **Agent Evaluation**        | Custom criteria, LLM-as-judge, NLP metrics            | LLM-as-judge, custom scorers                   |
 
-## Major Cloud Providers
-
-The major cloud providers have entered the AI agent space with their own platforms. Here's how HoloDeck compares:
-
-### vs. **Azure AI Foundry** (Microsoft)
-
-| Aspect                  | HoloDeck                                                                          | Azure AI Foundry                                            |
-| ----------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Deployment Model**    | Self-hosted (open-source)                                                         | **SaaS only** (Azure-dependent)                             |
-| **CI/CD Integration**   | **Native CLI** - integrates in any CI/CD pipeline                                 | Azure DevOps/GitHub Actions, requires Azure infrastructure  |
-| **Agent Definition**    | Pure YAML (no code)                                                               | Hybrid (Semantic Kernel SDK + Logic Apps)                   |
-| **Primary Focus**       | Agent experimentation & deployment                                                | Enterprise agent orchestration                              |
-| **Agent Orchestration** | Multi-agent patterns (sequential, concurrent, handoff)                            | Multi-agent via Semantic Kernel framework                   |
-| **Self-Hosted**         | Yes (full support)                                                                | No (Azure infrastructure required)                          |
-| **Vendor Lock-in**      | None (MIT open-source)                                                            | High (Microsoft 365/Teams/Copilot ecosystem)                |
-| **Agent Evaluation**    | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge, agent-specific evaluators, NLP metrics (F1, BLEU, ROUGE, METEOR) |
-| **Self-Hosted LLMs**    | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                             | Foundry Local (on-device); vLLM via AKS (complex setup)     |
+The infrastructure overhead was the main thing that put me off. I wanted something lighter.
 
 ---
 
-### vs. **Amazon Bedrock AgentCore** (AWS)
+### Microsoft PromptFlow
 
-| Aspect                  | HoloDeck                                                                          | Amazon Bedrock AgentCore                                    |
-| ----------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Deployment Model**    | Self-hosted (open-source)                                                         | **SaaS only** (AWS-managed)                                 |
-| **CI/CD Integration**   | **Native CLI** - integrates in any CI/CD pipeline                                 | AWS CodePipeline/API-based                                  |
-| **Agent Definition**    | Pure YAML (no code)                                                               | Code (SDK + frameworks like LangGraph, CrewAI)              |
-| **Primary Focus**       | Agent experimentation & deployment                                                | Enterprise agent operations at scale                        |
-| **Agent Orchestration** | Multi-agent patterns (sequential, concurrent, handoff)                            | Multi-agent collaboration (supervisor modes)                |
-| **Self-Hosted**         | Yes (full support)                                                                | No (AWS infrastructure required)                            |
-| **Vendor Lock-in**      | None (MIT open-source)                                                            | High (AWS ecosystem, Bedrock models)                        |
-| **Agent Evaluation**    | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge (GA 2025), custom metrics, RAG evaluation (limited NLP metrics) |
-| **Self-Hosted LLMs**    | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                             | **No** - Bedrock models only; Ollama on EC2 separate        |
+PromptFlow has a nice visual approach—you can see your flows as graphs, which is great for understanding what's happening. But it's really about individual functions and tools, not full agent orchestration.
 
----
+| Aspect                  | HoloDeck                                              | PromptFlow                                   |
+| ----------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| **CI/CD Integration**   | CLI-first                                             | Python SDK, Azure-centric                    |
+| **Scope**               | Full agent lifecycle                                  | Individual tools & functions                 |
+| **Design Target**       | Multi-agent workflows                                 | Single tool/AI function development          |
+| **Configuration**       | Pure YAML                                             | Visual flow graphs + low-code Python         |
+| **Agent Orchestration** | Multi-agent patterns                                  | Not designed for multi-agent                 |
+| **Self-Hosted**         | Yes                                                   | Limited (designed for Azure)                 |
+| **Agent Evaluation**    | Custom criteria, LLM-as-judge, NLP metrics            | LLM-as-judge (GPT-based), F1/BLEU/ROUGE      |
 
-### vs. **Vertex AI Agent Engine** (Google Cloud)
-
-| Aspect                  | HoloDeck                                                                          | Vertex AI Agent Engine                                      |
-| ----------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| **Deployment Model**    | Self-hosted (open-source)                                                         | **SaaS only** (GCP-managed)                                 |
-| **CI/CD Integration**   | **Native CLI** - integrates in any CI/CD pipeline                                 | Cloud Build/GitHub Actions                                  |
-| **Agent Definition**    | Pure YAML (no code)                                                               | Code (ADK, LangChain, LangGraph)                            |
-| **Primary Focus**       | Agent experimentation & deployment                                                | Production agent runtime                                    |
-| **Agent Orchestration** | Multi-agent patterns (sequential, concurrent, handoff)                            | Multi-agent via A2A protocol                                |
-| **Self-Hosted**         | Yes (full support)                                                                | No (GCP infrastructure required)                            |
-| **Vendor Lock-in**      | None (MIT open-source)                                                            | Moderate-High (GCP ecosystem)                               |
-| **Agent Evaluation**    | **Custom criteria, LLM-as-judge (RAG/Agentic built-ins), NLP metrics (BLEU, METEOR, ROUGE, F1)** | LLM-as-judge (Gemini), custom Python evaluators, ROUGE/BLEU, agent trace metrics |
-| **Self-Hosted LLMs**    | **Native support** (Ollama, vLLM, any OpenAI-compatible endpoint)                             | vLLM in Model Garden; self-deploy on GKE (complex setup)    |
+If you're building individual AI functions and live in Azure, PromptFlow makes sense. For agent-level work, it's not quite there.
 
 ---
 
-## Why HoloDeck is Unique
+## The Cloud Providers
 
-**HoloDeck solves a problem none of these platforms address:**
+All three major clouds have agent platforms now. They're impressive, but they come with the obvious trade-off: you're locked into their ecosystem.
 
-```bash
-┌───────────────────────────────────────────────────────────────────┐
-│  The Agent Development Gap                                        │
-├───────────────────────────────────────────────────────────────────┤
-│                                                                   │
-│  Azure AI Foundry → Enterprise orchestration (Azure-only)         │
-│  AWS Bedrock      → Managed agent ops (AWS-only)                  │
-│  Vertex AI        → Production runtime (GCP-only)                 │
-│  LangSmith        → Production observability (SaaS-only)          │
-│  MLflow           → Model tracking (heavy infrastructure)         │
-│  PromptFlow       → Function/tool development (not agents)        │
-│                                                                   │
-│  ❌ None offer self-hosted, cloud-agnostic deployment             │
-│  ❌ None enable a declarative agent definition                    │
-│  ❌ None designed for vendor-neutral CI/CD integration            │
-│  ❌ None combine testing + evaluation + deployment (open-source)  │
-│                                                                   │
-│  ✅ HoloDeck fills ALL these gaps                                 │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
----
+### Azure AI Foundry (Microsoft)
 
-## The Bottom Line
+Azure AI Foundry is Microsoft's enterprise play. It integrates with the whole Microsoft stack—Teams, Copilot, etc. If you're already a Microsoft shop, there's a lot to like.
 
-| If you need...                          | Choose...                |
-| --------------------------------------- | ------------------------ |
-| Production observability for LangChain  | LangSmith                |
-| ML experiment tracking at scale         | MLflow                   |
-| Visual prompt flow design on Azure      | PromptFlow               |
-| Enterprise agents in Microsoft ecosystem| Azure AI Foundry         |
-| Managed agents on AWS                   | Bedrock AgentCore        |
-| Production runtime on GCP               | Vertex AI Agent Engine   |
-| **Self-hosted, declarative, CI/CD-native agent development** | **HoloDeck** |
+| Aspect                  | HoloDeck                                 | Azure AI Foundry                              |
+| ----------------------- | ---------------------------------------- | --------------------------------------------- |
+| **Deployment Model**    | Self-hosted (open-source)                | SaaS (Azure-dependent)                        |
+| **CI/CD Integration**   | CLI, works anywhere                      | Azure DevOps/GitHub Actions                   |
+| **Agent Definition**    | Pure YAML                                | Semantic Kernel SDK + Logic Apps              |
+| **Primary Focus**       | Experimentation & deployment             | Enterprise agent orchestration                |
+| **Agent Orchestration** | Multi-agent patterns                     | Multi-agent via Semantic Kernel               |
+| **Self-Hosted**         | Yes                                      | No (Azure required)                           |
+| **Agent Evaluation**    | Custom criteria, LLM-as-judge, NLP       | LLM-as-judge, NLP metrics                     |
+
+The Semantic Kernel framework is interesting, but the Azure dependency is real.
 
 ---
 
-## Next: Building Agents with HoloDeck
+### Amazon Bedrock AgentCore (AWS)
 
-Now that you understand the landscape, let's dive into how HoloDeck actually works. In [Part 3](/blog/holodeck-part3-solution), we cover:
+Bedrock AgentCore is AWS's managed agent service. Good for running agents at scale if you're already on AWS and using their model offerings.
 
-- The ML principles that inspired HoloDeck's architecture
-- Configuration-first design with pure YAML
-- The SDK for advanced use cases
-- CI/CD integration and DevOps workflows
-- What's available now and what's on the roadmap
+| Aspect                  | HoloDeck                                 | Amazon Bedrock AgentCore                    |
+| ----------------------- | ---------------------------------------- | ------------------------------------------- |
+| **Deployment Model**    | Self-hosted (open-source)                | SaaS (AWS-managed)                          |
+| **CI/CD Integration**   | CLI, works anywhere                      | AWS CodePipeline/API-based                  |
+| **Agent Definition**    | Pure YAML                                | Code (SDK + LangGraph, CrewAI, etc.)        |
+| **Primary Focus**       | Experimentation & deployment             | Enterprise agent operations at scale        |
+| **Agent Orchestration** | Multi-agent patterns                     | Multi-agent collaboration (supervisor modes)|
+| **Self-Hosted**         | Yes                                      | No (AWS required)                           |
+| **Agent Evaluation**    | Custom criteria, LLM-as-judge, NLP       | LLM-as-judge, custom metrics, RAG eval      |
+| **Self-Hosted LLMs**    | Native support (Ollama, vLLM)            | Bedrock models only                         |
 
-**[Continue to Part 3: Building Agents with HoloDeck →](/blog/holodeck-part3-solution)**
+If you want to use local models or run outside AWS, this isn't really an option.
+
+---
+
+### Vertex AI Agent Engine (Google Cloud)
+
+Google's entry into the agent space. The A2A protocol for multi-agent communication is interesting. Like the others, you're tied to GCP.
+
+| Aspect                  | HoloDeck                                 | Vertex AI Agent Engine                      |
+| ----------------------- | ---------------------------------------- | ------------------------------------------- |
+| **Deployment Model**    | Self-hosted (open-source)                | SaaS (GCP-managed)                          |
+| **CI/CD Integration**   | CLI, works anywhere                      | Cloud Build/GitHub Actions                  |
+| **Agent Definition**    | Pure YAML                                | Code (ADK, LangChain, LangGraph)            |
+| **Primary Focus**       | Experimentation & deployment             | Production agent runtime                    |
+| **Agent Orchestration** | Multi-agent patterns                     | Multi-agent via A2A protocol                |
+| **Self-Hosted**         | Yes                                      | No (GCP required)                           |
+| **Agent Evaluation**    | Custom criteria, LLM-as-judge, NLP       | LLM-as-judge (Gemini), ROUGE/BLEU           |
+| **Self-Hosted LLMs**    | Native support (Ollama, vLLM)            | vLLM in Model Garden (complex setup)        |
+
+Similar story—great if you're committed to GCP, but not portable.
+
+---
+
+## What's Missing
+
+After looking at all of these, here's what I couldn't find:
+
+- **Self-hosted and cloud-agnostic** - Everything is either SaaS or tied to a specific cloud
+- **Declarative agent definition** - Most require SDK code, not just config
+- **Vendor-neutral CI/CD** - The integrations assume you're using their ecosystem
+- **Testing + evaluation + deployment in one place** - Usually you're stitching together multiple tools
+
+This is the gap I'm trying to fill with HoloDeck. Not saying it's better than these tools—they're solving different problems. But if you care about portability and owning your workflow, there wasn't much out there.
+
+---
+
+## Quick Reference
+
+| If you need...                           | Look at...               |
+| ---------------------------------------- | ------------------------ |
+| Production observability for LangChain   | LangSmith                |
+| ML experiment tracking at scale          | MLflow                   |
+| Visual prompt flow design on Azure       | PromptFlow               |
+| Enterprise agents in Microsoft ecosystem | Azure AI Foundry         |
+| Managed agents on AWS                    | Bedrock AgentCore        |
+| Production runtime on GCP                | Vertex AI Agent Engine   |
+| Self-hosted, config-driven, CI/CD-native | HoloDeck                 |
+
+---
+
+## Next Up
+
+In [Part 3](/blog/holodeck-part3-solution), I'll walk through how HoloDeck works—the design decisions, the YAML config approach, the SDK, and what's actually built vs. what's still on the roadmap.
+
+[Continue to Part 3 →](/blog/holodeck-part3-solution)
