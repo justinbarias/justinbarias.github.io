@@ -13,6 +13,14 @@ const { title, description, permalink } = Astro.props
 const socialUrl = Astro.site?.href + 'assets/social.png'
 ---
 
+<!-- RSS Feed -->
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="Justin Barias Blog RSS Feed"
+  href="/rss.xml"
+/>
+
 <!-- Global Metadata -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />

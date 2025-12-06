@@ -7,7 +7,7 @@ import rehypeExternalLinks from 'rehype-external-links'
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://justinbarias.github.io',
   integrations: [mdx(), svelte()],
   markdown: {
     shikiConfig: {
