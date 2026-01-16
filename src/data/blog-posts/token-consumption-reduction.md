@@ -166,7 +166,7 @@ Good for understanding intent. "Find information about refunds" matches `get_ret
 
 ### 2. BM25 (Keyword Matching)
 
-Classic information retrieval using [Okapi BM25](https://www.staff.city.ac.uk/~seb/papers/Robertson_Zaragoza2009-FTIR.pdf) (Robertson & Zaragoza, 2009). Sometimes you want exact matches:
+Classic information retrieval using [BM25](https://dl.acm.org/doi/10.1561/1500000019) (Robertson & Zaragoza, 2009). Sometimes you want exact matches:
 
 ```python
 def _bm25_score_single(self, query: str, tool: ToolMetadata) -> float:
