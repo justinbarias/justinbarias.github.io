@@ -243,7 +243,7 @@ RRF rewards tools that rank highly in **both** methods without being dominated b
 
 ## The Semantic Kernel Integration
 
-Here's the clever bit. Semantic Kernel has a `FunctionChoiceBehavior` class that controls which functions the LLM can call. It supports a `filters` parameter:
+Semantic Kernel has a `FunctionChoiceBehavior` class that controls which functions the LLM can call. It supports a `filters` parameter:
 
 ```python
 def create_function_choice_behavior(
