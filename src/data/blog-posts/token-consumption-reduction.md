@@ -1,7 +1,7 @@
 ---
 title: "How I Reduced My Agent's Token Consumption by 83%"
 slug: holodeck-tool-search
-publishDate: 16 Jan 2025
+publishDate: 16 Jan 2026
 description: MCP servers are great until you realize you're burning tokens on 16 tool definitions for a simple "hi there". Here's how I implemented Anthropic's tool search pattern in Holodeck.
 ---
 
