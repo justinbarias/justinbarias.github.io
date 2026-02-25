@@ -3,7 +3,7 @@
   const themes = ['light', 'dark'];
   let theme = ''
 
-  if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+  if (typeof window !== 'undefined' && typeof localStorage !== 'undefined' && typeof localStorage.getItem === 'function' && localStorage.getItem('theme')) {
     theme = localStorage.getItem('theme');
   } else if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     theme = 'dark';
