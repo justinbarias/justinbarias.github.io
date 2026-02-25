@@ -157,6 +157,19 @@ pre code {
   padding: 0;
 }
 
+/* Improve readability of plaintext/ASCII diagram code blocks */
+pre.astro-code[data-language="plaintext"] {
+  color: #eceff4;
+}
+
+pre.astro-code[data-language="plaintext"] code {
+  color: inherit;
+}
+
+pre.astro-code[data-language="plaintext"] .line span {
+  color: #eceff4 !important;
+}
+
 blockquote {
   border-left: 4px solid #cccccc;
   font-size: 1.4em;
