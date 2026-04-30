@@ -27,24 +27,7 @@ Let me try to map out why I think this matters.
 
 Crack open the source for Microsoft Agent Framework's Workflows package, or look at LangGraph's Pregel module, and you'll find the same thing: a graph engine running on the BSP (Bulk Synchronous Parallel) model, originally formalised by [Google's Pregel paper](https://research.google/pubs/pregel-a-system-for-large-scale-graph-processing/) for large-scale graph processing.
 
-```
-   superstep N                barrier              superstep N+1
-   ───────────                ───────              ─────────────
-
-   ┌───┐                                            ┌───┐
-   │ A │──msg──┐                                    │ A │──msg──┐
-   └───┘       │                                    └───┘       │
-   ┌───┐       │     ┌─────────────┐                ┌───┐       │
-   │ B │──msg──┼────►│   deliver   │──────────────► │ B │       │
-   └───┘       │     │   + sync    │                └───┘       │
-   ┌───┐       │     └─────────────┘                ┌───┐       │
-   │ C │───────┘                                    │ C │──msg──┘
-   └───┘                                            └───┘
-
-   (all executors with                              (next batch
-    pending messages run                             runs in
-    concurrently)                                    parallel)
-```
+![BSP supersteps: executors run in parallel within a superstep, sync at a barrier where messages are delivered, then the next superstep runs in parallel.](../../assets/images/agent-workflows-01-bsp-supersteps.png)
 
 Every executor with a pending message runs concurrently in a superstep. When all of them finish, outgoing messages get delivered along the edges, and the next superstep kicks off. Repeat until nothing is left to process.
 
@@ -60,32 +43,11 @@ For the typical agent application, you don't need any of that.
 
 Graph dataflow assumes a topology like this, with fan-out, joins, and supersteps:
 
-```
-      ┌───┐    ┌───┐    ┌───┐
-      │ A │───►│ B │───►│ D │
-      └───┘    └───┘    └───┘
-                 │        ▲
-                 ▼        │
-               ┌───┐    ┌───┐
-               │ C │───►│ E │
-               └───┘    └───┘
-```
+![Graph dataflow topology with fan-out and join: A goes to B, B goes to both D and C, C goes to E, and E joins back into D.](../../assets/images/agent-workflows-02-graph-dataflow.png)
 
 Most agent apps actually look like this. An agent loop with tool calls, plus the occasional handoff:
 
-```
-        ┌─────────┐    call    ┌──────┐
-        │  agent  │───────────►│ tool │
-        └─────────┘            └──────┘
-             ▲                     │
-             └─────────────────────┘
-                  observe + loop
-
-           (handoff = one agent
-            calls a tool that
-            transfers control
-            to another agent)
-```
+![Agent loop: agent calls a tool, observes the result, and loops. A handoff is just one agent calling a tool that transfers control to another agent.](../../assets/images/agent-workflows-03-agent-loop.png)
 
 That's a function call inside a `while` loop. You don't need supersteps for it.
 
@@ -162,29 +124,7 @@ There is a fair counterargument. Declarative graph workflows make compliance, au
 
 The other reason I'm sceptical of heavy workflow engines for agents is that the models are getting better at running their own long-horizon work without external orchestration scaffolding.
 
-```
-       ┌───────────────────────────────────┐
-       │            agent loop             │
-       │                                   │
-       │   plan ──► call tool ──► observe  │
-       │     ▲                       │     │
-       │     └───────────────────────┘     │
-       │                                   │
-       └─────────────── ┬ ─────────────────┘
-                        │
-                  reads / writes
-                        │
-                        ▼
-                ┌───────────────┐
-                │  filesystem   │   ◄── ephemeral memory
-                │  (workspace)  │       (the workflow state)
-                └───────────────┘
-                        ▲
-                        │
-                   crash? hand
-                   same workspace
-                   back, resume.
-```
+![Agent loop using the filesystem as ephemeral memory: plan → call tool → observe, with reads and writes flowing to a workspace; on crash, hand the same workspace back and resume.](../../assets/images/agent-workflows-04-agent-filesystem.png)
 
 Anthropic's [recent posts on context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) describe Claude Code's pattern: a long-running agent that uses primitives like `glob` and `grep` to navigate its environment just-in-time, with `CLAUDE.md` files providing high-level instructions and the filesystem itself as scratch memory. It's not a graph. It's not a state machine. It's a model with good tools and a workspace.
 
@@ -200,51 +140,19 @@ Step back from the framework debate and look at what people are actually buildin
 
 The most common multi-agent architecture in practice (the one Claude Agent SDK encourages, the one [Anthropic's research agent uses](https://www.anthropic.com/engineering/multi-agent-research-system), the one most production deployments converge on) is orchestrator + subagents:
 
-```
-              ┌──────────────┐
-              │ orchestrator │
-              └──────┬───────┘
-                     │ spawns
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-    ┌────────┐   ┌────────┐   ┌────────┐
-    │ sub 1  │   │ sub 2  │   │ sub 3  │
-    └────────┘   └────────┘   └────────┘
-```
+![Orchestrator + subagents: one orchestrator spawns multiple subagents.](../../assets/images/agent-workflows-05-orchestrator-subagents.png)
 
 The orchestrator decides what work needs doing, spawns subagents to do it, possibly spawns more, and aggregates the results. This is fine for a single coherent task. Where it goes wrong is when teams scale this pattern across multiple business domains, and end up with one orchestrator whose subagents can touch the entire system: orders, inventory, payments, shipping, customer comms, the lot.
 
 That's a monolithic agentic system. We're building 2010-era enterprise monoliths and calling them agents.
 
-```
-   The anti-pattern. One agent reaches everywhere:
+**The anti-pattern.** One agent reaches everywhere — its reasoning context spans orders, inventory, payments, shipping, and customer comms.
 
-              ┌────────────────────────┐
-              │      orchestrator      │
-              └─┬─────┬─────┬─────┬────┘
-                │     │     │     │
-                ▼     ▼     ▼     ▼
-              orders inv   pay   ship   comms
-              (one agent's reasoning context
-               reaches into every domain)
-```
+![Anti-pattern: one orchestrator's reasoning context reaches into every domain.](../../assets/images/agent-workflows-06-anti-pattern-monolith.png)
 
-```
-   The architecture. Agents per bounded context, talking via messages:
+**The architecture.** Agents per bounded context, talking via messages.
 
-   ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-   │ ordering BC  │   │ inventory BC │   │ shipping BC  │
-   │  ┌────────┐  │   │  ┌────────┐  │   │  ┌────────┐  │
-   │  │ agent  │  │   │  │ agent  │  │   │  │ agent  │  │
-   │  └────────┘  │   │  └────────┘  │   │  └────────┘  │
-   └──────┬───────┘   └──────┬───────┘   └──────┬───────┘
-          │                  │                  │
-          └──────────────────┼──────────────────┘
-                             │
-                       ┌─────┴──────┐
-                       │ message bus│
-                       └────────────┘
-```
+![Bounded contexts: ordering, inventory, and shipping each have their own agent inside their boundary; they communicate through a shared message bus.](../../assets/images/agent-workflows-07-bounded-contexts.png)
 
 [Domain-driven design](https://martinfowler.com/bliki/BoundedContext.html) solved this fifteen years ago. A bounded context owns its model, its language, its rules, its data. If something inside one context needs to cause an effect in another, you don't reach across. You send a message. The receiving context decides how to interpret it. This is the basic shape of every microservices architecture that actually scales.
 
