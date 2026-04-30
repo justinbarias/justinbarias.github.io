@@ -3,6 +3,7 @@ title: "Agent Workflows: A Solved Problem, Reinvented"
 slug: agent-workflows-solved-problem-reinvented
 publishDate: 30 Apr 2026
 description: "Every major agent framework now ships its own workflow engine. But workflows are a solved problem in software: finite state machines, distributed sagas, durable execution. So why are we reinventing them? A look at where graph dataflow actually fits, where the frontier labs sit, and why bundling orchestration into an agent SDK might age badly."
+socialImage: /assets/blog/agent-workflows-cover.png
 ---
 
 ## Table of Contents
