@@ -1,818 +1,451 @@
 ---
-import ExperienceCarousel from './ExperienceCarousel.astro';
-import SkillCard from './SkillCard.astro';
+import Experience from './Experience.astro';
 
 const skills = [
-  {
-    name: "AI Software Engineering",
-    description: "Experiment and deploy AI-powered applications using LLMs, LangChain, Semantic Kernel, and Azure AI services",
-    logoSrc: "/assets/icons8-experiment-50.png"
-  },
-  {
-    name: "Data Engineering",
-    description: "High-performance pipelines with Azure Functions, KEDA, Kubernetes, PySpark, and Synapse",
-    logoSrc: "/assets/icons8-data-pipeline-32.png"
-  },
-  {
-    name: "Cloud Architecture",
-    description: "Scalable distributed systems on Azure with microservices and containerization",
-    logoSrc: "/assets/icons8-cloud-engineering-50.png"
-  },
-  {
-    name: "DevOps & GitOps",
-    description: "CI/CD pipelines, infrastructure as code, and automated deployment strategies",
-    logoSrc: "/assets/icons8-devops-50.png"
-  },
-  {
-    name: "Engineering Leadership",
-    description: "Leading cross-functional engineering teams and driving technical strategy",
-    logoSrc: "/assets/icons8-engineer-50.png"
-  },
-  {
-    name: "Sustainable Software Engineering",
-    description: "Applying sustainability principles in software and data engineering practices",
-    logoSrc: "/assets/icons8-sustainability-50.png"
-  }
+  { name: 'AI & Agent Engineering', score: '0.98', icon: 'ai', description: 'Claude Agents SDK · MCP · LangChain · Semantic Kernel · PromptFlow · Azure OpenAI · RAG · Azure AI Search · pgvector · LLMOps · Azure AI Foundry · OpenTelemetry for AI' },
+  { name: 'Distributed Systems & Cloud', score: '0.97', icon: 'cloud', description: 'Domain-Driven Design · Cloud-Native Patterns · Kubernetes · AKS · Azure IaaS / PaaS / Functions' },
+  { name: 'DevOps & Platform Engineering', score: '0.97', icon: 'devops', description: 'Terraform · ARM · Azure DevOps · GitOps (Flux) · CI/CD pipeline design' },
+  { name: 'Full-Stack Engineering', score: '0.96', icon: 'code', description: 'Python · TypeScript · Go · .NET 8 · ASP.NET Core · Blazor · React' },
+  { name: 'Data Engineering & ML', score: '0.92', icon: 'chart', description: 'Python · Pandas · PySpark · PyTorch · Keras · Azure ML · Synapse Spark' },
+  { name: 'Data & Persistence', score: '0.91', icon: 'database', description: 'PostgreSQL · Azure CosmosDB · Azure SQL · MongoDB · Entity Framework' },
 ];
+
+// Inline line-icons (stroke = currentColor, so they tint with the active skin)
+const skillIcons = {
+  ai: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 3l1.9 6.1L20 11l-6.1 1.9L12 19l-1.9-6.1L4 11l6.1-1.9z"/></svg>',
+  cloud: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1 0-8 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 17 18z"/></svg>',
+  devops: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 13.7-5.6L20 8"/><path d="M20 4v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 16"/><path d="M4 20v-4h4"/></svg>',
+  code: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4"/><path d="M16 8l4 4-4 4"/><path d="M13 6l-2 12"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-7"/><path d="M22 20H2"/></svg>',
+  database: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3"/></svg>',
+  cube: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7z"/><path d="M3 7l9 5 9-5"/><path d="M12 12v10"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+};
 
 const experiences = [
   {
-    id: 1,
-    title: "Lead Software & AI Engineer",
-    company: "Innovation Team, Department of Employment and Workplace Relations",
-    duration: "2025 - Present",
+    hash: 'f3a9d1',
+    title: 'Lead Software & AI Engineer',
+    company: 'Innovation Team · Dept. of Employment and Workplace Relations',
+    duration: '2025 — Present',
+    type: 'Contract',
     achievements: [
-      "Design and build scalable experimentation and AIOps platforms",
-      "Enable cheap, fast, evaluation-based AI experiments",
-      "Ensure consistent flow from experimentation to production"
+      'Built a secure, developer-native AI experimentation platform rated for Protected data on Azure AI Foundry',
+      'Developed a .NET LLM experimentation engine — a federal-government first for end-to-end agent experimentation, evaluation, OpenTelemetry, and production deployment; cut time-to-production by 60%',
+      "Shipped two production LLM workloads and lead the department's AI-native software engineering strategy",
+      'Lead a team of 8 across internal tooling, libraries, and an Azure developer platform',
     ],
-    logo: "/assets/dewr_logo.jpeg",
   },
   {
-    id: 2,
-    title: "Lead Software Engineer",
-    company: "Digital Delivery, Department of Employment and Workplace Relations",
-    duration: "2024 - 2025",
+    hash: 'c2e480',
+    title: 'Lead Software Engineer',
+    company: 'Digital Delivery · Dept. of Employment and Workplace Relations',
+    duration: '2024 — 2025',
+    type: 'Contract',
     achievements: [
-      "Built scalable platforms for distributed services",
-      "Focused on observability, messaging, and transactional integrity",
-      "Led cross-functional engineering teams"
+      'Led a cross-cutting systems team accelerating delivery for 6 engineering teams on a $30M distributed payments system for higher education and schools',
+      'Built scalable platforms for distributed services with a focus on observability, messaging, and transactional integrity',
+      'Led cross-functional engineering teams',
     ],
-    logo: "/assets/dewr_logo.jpeg"
   },
   {
-    id: 3,
-    title: "Senior Software Engineer",
-    company: "Microsoft",
-    duration: "2018 - 2024",
+    hash: 'e4c1a7',
+    title: 'Senior Consultant — Software Engineering & AI',
+    company: 'Microsoft Australia',
+    duration: '2020 — 2024',
     achievements: [
-      "Software Engineering Lead - Development and leading teams of software engineers to deliver a globally used toolset within Microsoft ISD",
-      "Data Engineering - Design and Development of high performance data pipelines using Azure Functions, KEDA, Kubernetes, PySpark, Synapse, Datalake, and Azure DevOps",
-      "Custom Copilot development - Development of custom OpenAI-powered copilots for both internal products and customer products using Python Flask, LangChain, Azure OpenAI",
-      "Sustainability - thought and action leadership in applying sustainability principles in Software and Data Engineering. Design and development of sustainability data pipeline for consumption in Microsoft Sustainability Manager",
-      "Distributed systems design and engineering - Design and development of a distributed data pipeline on Kubernetes (KEDA). Implemented GitOps toolset and principles"
+      'Led LLM proof-of-concept work for internal tools — Semantic Kernel, Azure OpenAI, and RAG in a .NET Blazor app — through to MVP release',
+      'Led a sustainability data-ingestion platform for a top Australian telco: ETL, emissions calculations, Python data engineering, and dashboards',
+      'Shipped internal cloud-migration tooling (ASP.NET Core, Blazor) to 5 live projects globally across a distributed team',
+      'Delivered cloud operating-model and GRC platforms for federal government and a top-3 Australian bank',
     ],
-    logo: "/assets/microsoft_logo.jpeg",
-  }
+  },
+  {
+    hash: 'b92f30',
+    title: 'Premier Field Engineer — Modern Apps & DevOps/SRE',
+    company: 'Microsoft Australia',
+    duration: '2018 — 2020',
+    achievements: [
+      'Engineered an Azure onboarding platform for a leading Australian bank: custom tooling, telemetry, and cloud-native distributed services',
+      'Wrote custom Terraform Azure modules in Go and built serverless, event-driven ingestion pipelines in C# .NET Core',
+      'Led build & release pipeline transformation for a federal department — 40+ agile teams, 60+ applications',
+    ],
+  },
+  {
+    hash: 'a17d55',
+    title: 'Site Reliability Engineering Lead',
+    company: 'MedicalDirector',
+    duration: '2017 — 2018',
+    achievements: [
+      'Transformed release pipelines to single-click; drove cloud cost optimisation and automation',
+      'Applied domain-driven design and cloud-native architecture for healthcare SaaS, enabling blue-green / red-black deployments',
+    ],
+  },
+  {
+    hash: '5c8e21',
+    title: 'Senior Cloud Consultant',
+    company: 'Readify',
+    duration: '2016 — 2017',
+    achievements: [
+      'Led the DevOps practice across the organisation',
+      "Defined distributed cloud architecture and CI/CD for the online platform of Australia's largest retailer",
+    ],
+  },
 ];
+
+const projects = [
+  {
+    name: 'HoloDeck — Open-Source Agent Platform',
+    period: 'Ongoing',
+    icon: 'cube',
+    linkLabel: 'github.com/justinbarias/holodeck',
+    href: 'https://github.com/justinbarias/holodeck',
+    description: 'A YAML-driven agent platform supporting OpenAI, Azure, and Ollama (via Semantic Kernel), with the Claude Agents SDK as a first-class backend — built with production-grade OpenTelemetry observability.',
+  },
+  {
+    name: 'LLM Integration — Security Startup',
+    period: '2023',
+    icon: 'shield',
+    linkLabel: '',
+    href: '',
+    description: 'Sole contractor: designed the LLM use cases and built LangChain + Azure OpenAI assistants for a security-detection app, including a graph-to-LLM enrichment pipeline and feature-usage telemetry.',
+  },
+];
+
+const talks = [
+  {
+    title: 'Stop vibing your agents to production',
+    venue: 'AI Engineer Melbourne',
+    note: 'Applying ML engineering discipline to agent development',
+    date: 'Jun 2026',
+    href: 'https://webdirections.org/ai-engineer/',
+    links: [
+      { label: 'Talk resources', href: 'https://linktr.ee/justinbarias', note: '' },
+      { label: 'Recording', href: 'https://conffab.com/in_person_session/ai-engineer-melbourne-2026-software-engineering-day2-afternoon/', note: 'Conffab subscription' },
+    ],
+  },
+  {
+    title: 'CI/CD on VM Scale Sets & Kubernetes Deployments',
+    venue: 'ExpertsLive Australia — Melbourne',
+    note: '',
+    date: 'Apr 2017',
+    href: '',
+  },
+  {
+    title: 'CI/CD on VM Scale Sets & Kubernetes Deployments',
+    venue: 'Azure Global Bootcamp',
+    note: '',
+    date: 'Apr 2017',
+    href: '',
+  },
+  {
+    title: 'Patterns & Anti-Patterns in CD Pipelines',
+    venue: 'DevOps DeepDive — Sydney',
+    note: '',
+    date: 'Feb 2017',
+    href: '',
+  },
+];
+
+const contacts = [
+  { label: 'GitHub', value: 'github.com/justinbarias', href: 'https://github.com/justinbarias', external: true },
+  { label: 'LinkedIn', value: 'in/justin-barias', href: 'https://www.linkedin.com/in/justin-barias-89ba6521/', external: true },
+  { label: 'Email', value: 'jeremiah.justin.barias@gmail.com', href: 'mailto:jeremiah.justin.barias@gmail.com', external: false },
+  { label: 'Résumé', value: 'rxresu.me/justinbarias', href: 'https://rxresu.me/justinbarias/western-coffee-tiger', external: true },
+];
+
+const roleText = 'Justin Barias — Lead Software & AI Engineer';
 ---
 
-<main class="page">
-  <!-- Hero -->
-  <section class="section hero">
-    <div class="inner hero-content">
-      <div class="hero-text">
-        <p class="hero-greeting"> My name is </p>
-        <h1 class="name">Justin</h1>
-        <p class="role">Lead Software Engineer</p>
-        <p class="company">Department of Employment and Workplace Relations</p>
-      </div>
-      <div class="hero-image">
-        <img src="/assets/profile_anime.png" alt="My anime profile image" 
-             class="profile-img" />
+<div class="home">
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="status-pill">
+      <span class="status-dot"></span>
+      <span>Open to interesting roles</span>
+    </div>
+    <!-- quiet -->
+    <div class="hero-quiet skin-only" data-skin-only="quiet">
+      <p class="hero-eyebrow">Lead Software &amp; AI Engineer</p>
+      <h1 class="hero-name">
+        <span class="hn-line">Justin</span>
+        <span class="hn-line">Barias<span class="hn-dot">.</span></span>
+      </h1>
+      <p class="hero-tagline">
+        I build the platforms, tooling, and practices that take AI agents from experiment to production.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/blog">Read the writing</a>
+        <a class="btn" href="#contact">Get in touch</a>
       </div>
     </div>
-  </section>
 
-  <!-- Summary -->
-  <section class="section summary">
-    <div class="inner">
-      <h2>About Me</h2>
-      <div class="summary-content">
-        <p class="lead summary-text">
-          As a Lead Software and AI Engineer on the department's Innovation team, I build and design scalable experimentation and AIOps platforms.
+    <!-- terminal -->
+    <div class="hero-terminal skin-only" data-skin-only="terminal">
+      <div class="term-window">
+        <div class="term-bar">
+          <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
+          <span class="term-title">justin@dewr: ~</span>
+        </div>
+        <div class="term-body">
+          <div class="term-line"><span class="term-prompt">whoami</span></div>
+          <div class="term-line"><span class="term-out">&gt; <span class="js-type" data-text={roleText}>{roleText}</span><span class="caret"></span></span></div>
+          <div class="term-line">&nbsp;</div>
+          <div class="term-line"><span class="term-prompt">cat about.md</span></div>
+          <div class="term-line"><span class="term-comment"># I take AI agents from experiment to production.</span></div>
+          <div class="term-line"><span class="term-comment"># Loop: evaluate &rarr; descend &rarr; ship.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- descent -->
+    <div class="hero-descent skin-only" data-skin-only="descent">
+      <div class="hero-descent-text">
+        <p class="hero-eyebrow">Lead Software &amp; AI Engineer</p>
+        <h1 class="hero-name">Justin Barias</h1>
+        <p class="hero-tagline">
+          I tune platforms the way you tune a model: evaluate, then descend toward the minimum.
         </p>
-        <p class="lead summary-text">
-          These platforms enable cheap, fast, evaluation-based AI experiments and ensure a consistent flow of ideas from experimentation to production, empowering teams to deliver impactful solutions efficiently.
-        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="/blog">Read the writing</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
       </div>
-    </div>
-  </section>
-
-  <!-- Experience -->
-  <section class="section experience">
-    <div class="inner">
-      <ExperienceCarousel experiences={experiences} />
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section class="section skills">
-    <div class="inner">
-      <h2>Skills</h2>
-      <div class="skills-grid">
-        {skills.map(skill => (
-          <SkillCard 
-            name={skill.name}
-            description={skill.description}
-            logoSrc={skill.logoSrc}
+      <div class="chart-wrap" aria-hidden="true">
+        <div class="chart-readout">training loss &nbsp;<b id="loss-readout">0.0214</b> &nbsp;·&nbsp; epoch 42</div>
+        <svg class="loss-chart" viewBox="0 0 400 240" role="img" aria-label="A loss curve descending to a minimum">
+          <defs>
+            <linearGradient id="lossGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="var(--accent)" />
+              <stop offset="60%" stop-color="var(--accent-2)" />
+              <stop offset="100%" stop-color="var(--hot)" />
+            </linearGradient>
+          </defs>
+          <g stroke="var(--rule)" stroke-width="1">
+            <line x1="0" y1="60" x2="400" y2="60" />
+            <line x1="0" y1="120" x2="400" y2="120" />
+            <line x1="0" y1="180" x2="400" y2="180" />
+          </g>
+          <path
+            class="loss-path"
+            d="M8,28 L46,74 L84,58 L116,112 L150,96 L186,142 L220,132 L252,166 L288,170 L320,188 L352,193 L392,195"
           />
-        ))}
+          <circle class="loss-min-ring" cx="392" cy="195" r="6"></circle>
+          <circle class="loss-min" cx="392" cy="195" r="5"></circle>
+        </svg>
       </div>
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="section contact">
-    <div class="inner">
-      <h2>Let's Connect</h2>
-      <p class="contact-intro">I'm always interested in discussing new opportunities, innovative projects, or just having a good conversation about technology.</p>
-      
-      <div class="contact-links">
-        <a href="https://www.linkedin.com/in/justin-barias-89ba6521/" target="_blank" rel="noopener noreferrer" class="contact-link">
-          <div class="contact-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-          </div>
-          <div class="contact-info">
-            <span class="contact-title">LinkedIn</span>
-            <span class="contact-subtitle">Professional Network</span>
-          </div>
-        </a>
+  <!-- ============ AVAILABILITY ============ -->
+  <section class="section availability" id="availability">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">01</span> &mdash; Availability</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ ./status</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// availability</span>
+    </div>
+    <p class="avail-intro">Currently <strong>open to the right opportunity</strong>. Here's what fits:</p>
+    <ul class="avail-list">
+      <li>
+        <span class="avail-key">Engagement</span>
+        <span class="avail-val">Contract (12-month minimum) or full-time</span>
+      </li>
+      <li>
+        <span class="avail-key">Level</span>
+        <span class="avail-val">Principal / Lead Software &amp; AI Engineering</span>
+      </li>
+      <li>
+        <span class="avail-key">The work</span>
+        <span class="avail-val">Genuinely tackling core business problems with AI engineering — not POC theatre</span>
+      </li>
+      <li>
+        <span class="avail-key">Good fit</span>
+        <span class="avail-val">Teams needing lead/principal depth on distributed systems and AI workloads</span>
+      </li>
+    </ul>
+  </section>
 
-        <a href="mailto:justinbarias@live.com" class="contact-link">
-          <div class="contact-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 0 1 0 19.366V5.457c0-.904.732-1.636 1.636-1.636h1.64l8.724 6.545 8.724-6.545h1.64c.904 0 1.636.732 1.636 1.636z"/>
-            </svg>
-          </div>
-          <div class="contact-info">
-            <span class="contact-title">Email</span>
-            <span class="contact-subtitle">justinbarias@live.com</span>
-          </div>
-        </a>
-
-        <a href="/assets/justinbarias-cv.pdf" download class="contact-link">
-          <div class="contact-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
-            </svg>
-          </div>
-          <div class="contact-info">
-            <span class="contact-title">Resume</span>
-            <span class="contact-subtitle">Download PDF</span>
-          </div>
-        </a>
+  <!-- ============ ABOUT ============ -->
+  <section class="section about" id="about">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">02</span> &mdash; About</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ cat about.md</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// about</span>
+    </div>
+    <div class="about-grid">
+      <img class="portrait" src="/assets/profile_anime.png" alt="Portrait of Justin Barias" width="132" height="132" />
+      <div class="about-body">
+        <p>
+          AI engineering leader who builds the platforms, tooling, and practices that take AI agents
+          from experiment to production. Deep roots in DevOps, SRE, and distributed systems — I pivoted
+          to AI at Microsoft (LLMs, copilots, RAG) and now lead AI-native platform engineering in
+          Australian government.
+        </p>
+        <p>
+          I'm the creator of <strong>HoloDeck</strong>, an open-source YAML-driven agent platform, and I
+          work at every layer: architecture, engineering, evaluation, observability, and shipping to
+          production.
+        </p>
       </div>
     </div>
   </section>
-</main>
 
-<style>
-  /* Scoped Astro styles (replacing utility classes) */
-  * {
-    box-sizing: border-box;
-    max-width: 100%;
-  }
-  
-  .page {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-snap-type: y mandatory;
-    -webkit-overflow-scrolling: touch;
-    /* match site background and text color */
-    background-color: var(--background-body);
-    color: var(--text-main);
-    width: 100vw;
-    max-width: 100%;
-  }
-
-  .section {
-    min-height: 100vh;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 8rem 1.25rem 1.5rem;
-    scroll-snap-align: start;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-
-  .hero.section {
-    padding-top: 12rem;
-    align-items: center;
-  }
-
-  .summary.section {
-    padding-top: 12rem;
-  }
-
-  .inner {
-    max-width: 900px;
-    width: 100%;
-    text-align: center;
-    padding: 0 1rem;
-    box-sizing: border-box;
-    min-width: 0; /* Allows flex items to shrink below content size */
-  }
-
-  /* Hero Section Styles */
-  .hero-content {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    text-align: left;
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .hero-text {
-    flex: 1;
-    text-align: center;
-    min-width: 0; /* Allows flex item to shrink */
-    max-width: 100%;
-  }
-
-  .hero-image {
-    flex: 1;
-    text-align: center;
-    min-width: 0; /* Allows flex item to shrink */
-    max-width: 100%;
-  }
-
-  .hero-greeting {
-    font-size: 1.125rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .profile-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 50%;
-    max-height: 400px;
-    width: auto;
-  }
-
-  /* keep sections transparent so the component matches the site's background */
-  .hero,
-  .summary,
-  .experience,
-  .skills,
-  .contact {
-    background: transparent;
-    color: inherit;
-  }
-
-  .skills {
-    padding-top: 4rem;
-  }
-
-  .experience {
-    padding-top: 4rem;
-  }
-
-  /* Contact Section Styles */
-  .contact-intro {
-    font-size: 1.125rem;
-    line-height: 1.6;
-    opacity: 0.9;
-    margin-bottom: 2.5rem;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.3s ease;
-  }
-
-  .contact-link:hover {
-    background: rgba(255,255,255,0.06);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    border-color: rgba(255,255,255,0.2);
-  }
-
-  .contact-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    background: rgba(255,255,255,0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .contact-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    text-align: left;
-  }
-
-  .contact-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: inherit;
-  }
-
-  .contact-subtitle {
-    font-size: 0.95rem;
-    opacity: 0.7;
-  }
-
-  .name { 
-    font-size: clamp(2.5rem, 5vw, 3.5rem); 
-    margin: 0 0 0.5rem; 
-    font-weight: 700;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-  }
-  .role { 
-    font-size: clamp(1.125rem, 2.5vw, 1.5rem); 
-    margin: 0 0 0.25rem; 
-    opacity: 0.95;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-  }
-  .company { 
-    font-size: clamp(1rem, 2vw, 1.125rem); 
-    margin: 0; 
-    opacity: 0.85;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-  }
-
-  h2 { 
-    font-size: clamp(1.5rem, 3vw, 2rem); 
-    margin-bottom: 1rem;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-  }
-  .lead { 
-    font-size: clamp(1rem, 2vw, 1.125rem); 
-    line-height: 1.8; 
-    margin: 0 auto;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-  }
-
-  .summary-content {
-    max-width: 700px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-  }
-
-  .summary-text {
-    text-align: left;
-    margin: 0;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    hyphens: auto;
-    -webkit-hyphens: auto;
-    -ms-hyphens: auto;
-    white-space: normal;
-  }
-
-  .hero-greeting {
-    font-size: clamp(1rem, 2vw, 1.125rem);
-    margin-bottom: 0.5rem;
-  }
-
-  .list { list-style: none; padding: 0; margin: 0; font-size: 1.05rem; line-height: 1.8; }
-  .list li { margin: 0.5rem 0; }
-
-
-
-  .skills-grid { 
-    display: grid; 
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 1.5rem; 
-    margin-top: 2rem; 
-    align-items: stretch;
-  }
-
-  /* Responsive */
-  @media (max-width: 1024px) {
-    .section {
-      padding: 6rem 1rem 1.5rem;
-    }
-
-    .hero.section {
-      padding-top: 10rem;
-    }
-
-    .summary.section {
-      padding-top: 10rem;
-    }
-    
-    .inner {
-      max-width: 800px;
-      padding: 0 0.75rem;
-    }
-
-    .hero-content {
-      gap: 2.5rem;
-    }
-
-    .summary-content {
-      max-width: 600px;
-      gap: 1rem;
-    }
-    
-    .summary-text {
-      font-size: clamp(1rem, 2.2vw, 1.1rem);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .section {
-      padding: 4rem 0.75rem 1.25rem;
-    }
-
-    .hero.section {
-      padding-top: 8rem;
-    }
-
-    .summary.section {
-      padding-top: 8rem;
-    }
-    
-    .inner {
-      padding: 0 0.5rem;
-    }
-
-    .hero-content {
-      flex-direction: column;
-      gap: 2rem;
-      text-align: center;
-    }
-
-    .hero-text, .hero-image {
-      flex: none;
-      width: 100%;
-    }
-
-    .profile-img {
-      max-height: 250px;
-    }
-
-    .summary-content {
-      max-width: 100%;
-      gap: 0.875rem;
-    }
-    
-    .summary-text {
-      font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-      line-height: 1.7;
-      text-align: center;
-    }
-
-    .skills-grid { 
-      grid-template-columns: repeat(2, 1fr); 
-      gap: 1.25rem;
-    }
-  }
-
-  @media (max-width: 640px) {
-    .section {
-      padding: 3rem 5vw 2rem;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .hero.section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding-top: 6rem;
-    }
-
-    .summary.section {
-      padding-top: 6rem;
-    }
-    
-    .inner {
-      padding: 0 3vw;
-      max-width: 100%;
-      width: 100%;
-    }
-
-    .hero-content {
-      gap: 1.5rem;
-    }
-
-    .profile-img {
-      max-height: 200px;
-    }
-
-    .summary-content {
-      gap: 1rem;
-      padding: 0 0.5rem;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    
-    .summary-text {
-      font-size: clamp(0.875rem, 4vw, 1rem);
-      line-height: 1.6;
-      padding: 0 0.75rem;
-      text-align: center;
-    }
-
-    .skills-grid { 
-      grid-template-columns: 1fr; 
-      gap: 1rem;
-    }
-    
-    .contact-intro {
-      font-size: clamp(0.9rem, 2vw, 1rem);
-      margin-bottom: 2rem;
-    }
-    
-    .contact-links {
-      gap: 1.25rem;
-    }
-    
-    .contact-link {
-      padding: 1.25rem;
-      gap: 1.25rem;
-    }
-    
-    .contact-icon {
-      width: 40px;
-      height: 40px;
-    }
-    
-    .contact-title {
-      font-size: clamp(0.9rem, 2vw, 1rem);
-    }
-    
-    .contact-subtitle {
-      font-size: clamp(0.8rem, 1.8vw, 0.875rem);
-    }
-    
-    .page { 
-      scroll-padding-top: 20px; 
-    }
-  }
-
-  @media (max-width: 480px) {
-    .section {
-      padding: 2.5rem 4vw 1.5rem;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .hero.section {
-      padding-top: 5rem;
-    }
-
-    .summary.section {
-      padding-top: 5rem;
-    }
-    
-    .inner {
-      padding: 0 2vw;
-      width: 100%;
-    }
-
-    .summary-content {
-      gap: 0.875rem;
-      padding: 0 0.25rem;
-    }
-    
-    .summary-text {
-      font-size: clamp(0.8rem, 4.5vw, 0.95rem);
-      line-height: 1.55;
-      padding: 0 0.5rem;
-    }
-
-    h2 {
-      font-size: clamp(1.25rem, 5vw, 1.75rem);
-      margin-bottom: 0.875rem;
-    }
-  }
-
-  @media (max-width: 360px) {
-    .section {
-      padding: 2rem 3vw 1.25rem;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .hero.section {
-      padding-top: 4rem;
-    }
-
-    .summary.section {
-      padding-top: 4rem;
-    }
-    
-    .inner {
-      padding: 0 1vw;
-      width: 100%;
-    }
-    
-    .summary-content {
-      gap: 0.75rem;
-      padding: 0;
-    }
-    
-    .summary-text {
-      font-size: clamp(0.75rem, 5vw, 0.9rem);
-      line-height: 1.5;
-      padding: 0 0.75rem;
-    }
-  }
-
-  /* Hide scrollbar but keep scrolling functional */
-  :global(.page::-webkit-scrollbar) { width: 0; height: 0; }
-  :global(.page) { -ms-overflow-style: none; scrollbar-width: none; }
-
-  /* Scroll hint arrows (global so appended elements get styled) */
-  :global(.scroll-hints) {
-    position: fixed;
-    right: 1rem;
-    bottom: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 9999;
-    transition: opacity 200ms ease;
-  }
-
-  @media (max-width: 640px) {
-    :global(.scroll-hints) {
-      right: 0.5rem;
-      bottom: 1.5rem;
-    }
-    
-    :global(.scroll-arrow) {
-      width: 36px;
-      height: 36px;
-    }
-  }
-
-  :global(.scroll-hints.hidden) { opacity: 0; pointer-events: none; }
-
-  :global(.scroll-arrow) {
-    width: 44px;
-    height: 44px;
-    display: grid;
-    place-items: center;
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    border-radius: 999px;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
-    transition: transform 180ms ease, background 180ms ease;
-  }
-
-  :global(.scroll-arrow:hover) { transform: translateY(-4px); background: rgba(0,0,0,0.65); }
-
-  :global(.arrow-icon) {
-    border: solid currentColor;
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 6px;
-  }
-
-  :global(.arrow-down) { transform: rotate(45deg); }
-  :global(.arrow-up) { transform: rotate(-135deg); }
-</style>
-
-<script type="module">
-  // Scroll hint behavior: navigate to next/prev section and auto-hide on inactivity
-  // Prefer the inner .page scroll container; fall back to document scrolling
-  let page = document.querySelector('.page');
-  if (!page) page = document.scrollingElement || document.documentElement;
-  const nextBtn = document.createElement('button');
-  const prevBtn = document.createElement('button');
-
-  nextBtn.className = 'scroll-arrow';
-  prevBtn.className = 'scroll-arrow';
-  nextBtn.setAttribute('aria-label', 'Scroll to next section');
-  prevBtn.setAttribute('aria-label', 'Scroll to previous section');
-  nextBtn.setAttribute('role', 'button');
-  prevBtn.setAttribute('role', 'button');
-  nextBtn.tabIndex = 0;
-  prevBtn.tabIndex = 0;
-
-  nextBtn.innerHTML = '<i class="arrow-icon arrow-down" aria-hidden="true"></i>';
-  prevBtn.innerHTML = '<i class="arrow-icon arrow-up" aria-hidden="true"></i>';
-
-  const hints = document.createElement('div');
-  hints.className = 'scroll-hints';
-  hints.appendChild(prevBtn);
-  hints.appendChild(nextBtn);
-  document.body.appendChild(hints);
-
-  function getSections() {
-    return Array.from(document.querySelectorAll('.section'));
-  }
-
-  function scrollToSection(index) {
-    const sections = getSections();
-    const s = sections[index];
-    if (!s) return;
-    // If we have a dedicated scroll container (.page), scroll it to the section's offset
-    if (page && page !== document.scrollingElement && page !== document.documentElement) {
-      // compute delta relative to the container's viewport and scroll by that amount
-      const containerRect = page.getBoundingClientRect();
-      const secRect = s.getBoundingClientRect();
-      const delta = secRect.top - containerRect.top;
-      page.scrollBy({ top: delta, behavior: 'smooth' });
-    } else {
-      // Fallback: scroll the document so the section is visible in viewport
-      s.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function currentSectionIndex() {
-    const sections = getSections();
-    if (!sections.length) return 0;
-    // Use bounding rects so this stays accurate during smooth scrolling animations
-    const isDocumentScroll = page === document.scrollingElement || page === document.documentElement;
-    const containerTop = isDocumentScroll ? 0 : page.getBoundingClientRect().top;
-    let bestIdx = 0;
-    let bestDistance = Infinity;
-    sections.forEach((s, i) => {
-      const rect = s.getBoundingClientRect();
-      const distance = Math.abs(rect.top - containerTop);
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestIdx = i;
+  <!-- ============ EXPERIENCE ============ -->
+  <section class="section experience" id="experience">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">03</span> &mdash; Experience</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ git log --oneline ~/experience</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// experience &middot; run history</span>
+    </div>
+    <Experience experiences={experiences} />
+  </section>
+
+  <!-- ============ PROJECTS ============ -->
+  <section class="section projects" id="projects">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">04</span> &mdash; Projects</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ ls ~/projects</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// projects &middot; builds</span>
+    </div>
+    <ol class="proj-list">
+      {projects.map((p) => (
+        <li class="proj">
+          <span class="proj-icon" set:html={skillIcons[p.icon]} />
+          <div class="proj-body">
+            <div class="proj-head">
+              <h3 class="proj-name">{p.name}</h3>
+              <span class="proj-period">{p.period}</span>
+            </div>
+            <p class="proj-desc">{p.description}</p>
+            {p.href && (
+              <a class="proj-link" href={p.href} target="_blank" rel="noopener noreferrer">{p.linkLabel} &rarr;</a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ============ SPEAKING ============ -->
+  <section class="section speaking" id="speaking">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">05</span> &mdash; Speaking</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ cat talks.log</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// speaking &middot; talks</span>
+    </div>
+    <ol class="talk-list">
+      {talks.map((t) => (
+        <li class="talk">
+          <div class="talk-when">{t.date}</div>
+          <div class="talk-what">
+            <h3 class="talk-title">
+              {t.href ? (
+                <a href={t.href} target="_blank" rel="noopener noreferrer">{t.title}</a>
+              ) : (
+                t.title
+              )}
+            </h3>
+            <p class="talk-venue">{t.venue}{t.note ? ` · ${t.note}` : ''}</p>
+            {t.links && (
+              <div class="talk-links">
+                {t.links.map((l) => (
+                  <a class="talk-link" href={l.href} target="_blank" rel="noopener noreferrer">
+                    {l.label} &rarr;{l.note && <span class="talk-link-note"> · {l.note}</span>}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section class="section skills-section" id="skills">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">06</span> &mdash; Skills</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ ./skills --list</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// skills &middot; metrics</span>
+    </div>
+    <ul class="skills">
+      {skills.map((s) => (
+        <li class="skill" data-score={s.score}>
+          <span class="skill-icon" set:html={skillIcons[s.icon]} />
+          <span class="skill-name">{s.name}</span>
+          <span class="skill-desc">{s.description}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="section contact" id="contact">
+    <div class="sec-head">
+      <span class="sec-label skin-only" data-skin-only="quiet"><span class="num">07</span> &mdash; Say hello</span>
+      <span class="sec-label skin-only" data-skin-only="terminal">$ ./contact</span>
+      <span class="sec-label skin-only" data-skin-only="descent">// contact</span>
+    </div>
+    <ul class="contact-list">
+      {contacts.map((c) => (
+        <li>
+          <a class="contact-link" href={c.href} {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+            <span class="c-label">{c.label}</span>
+            <span class="c-value">{c.value}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>
+
+<script is:inline>
+  (function () {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- Terminal hero: type the role line ---
+    let typing = null;
+    function typeRole() {
+      const el = document.querySelector('.js-type');
+      if (!el) return;
+      const text = el.getAttribute('data-text') || '';
+      if (reduce) {
+        el.textContent = text;
+        return;
       }
-    });
-    return bestIdx;
-  }
+      if (typing) clearInterval(typing);
+      el.textContent = '';
+      let i = 0;
+      typing = setInterval(() => {
+        el.textContent = text.slice(0, ++i);
+        if (i >= text.length) {
+          clearInterval(typing);
+          typing = null;
+        }
+      }, 38);
+    }
 
-  nextBtn.addEventListener('click', () => {
-    const idx = currentSectionIndex();
-    scrollToSection(Math.min(getSections().length - 1, idx + 1));
-  });
+    // --- Descent hero: redraw the loss path on demand ---
+    function drawLoss() {
+      const path = document.querySelector('.loss-path');
+      if (!path || reduce) return;
+      const len = path.getTotalLength();
+      path.style.transition = 'none';
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+      path.getBoundingClientRect();
+      path.style.transition = 'stroke-dashoffset 1.7s ease';
+      path.style.strokeDashoffset = '0';
+    }
 
-  prevBtn.addEventListener('click', () => {
-    const idx = currentSectionIndex();
-    scrollToSection(Math.max(0, idx - 1));
-  });
+    function runForSkin() {
+      const skin = document.documentElement.dataset.skin;
+      if (skin === 'terminal') typeRole();
+      if (skin === 'descent') drawLoss();
+    }
 
-  // toggle prev/next visibility depending on position
-  function updateHintVisibility() {
-    const idx = currentSectionIndex();
-    const total = getSections().length;
-    prevBtn.style.display = idx > 0 ? 'grid' : 'none';
-    nextBtn.style.display = idx < total - 1 ? 'grid' : 'none';
-  }
-
-  page.addEventListener('scroll', updateHintVisibility, { passive: true });
-  updateHintVisibility();
-
-  // Auto-hide hints after inactivity
-  let hideTimer = null;
-  function showHints() { hints.classList.remove('hidden'); clearTimeout(hideTimer); hideTimer = setTimeout(() => hints.classList.add('hidden'), 2500); }
-  // Show hints on interactions. Also listen to the scroll container's scroll event.
-  ['mousemove', 'touchstart', 'keydown'].forEach(ev => document.addEventListener(ev, showHints, { passive: true }));
-  if (page) page.addEventListener('scroll', showHints, { passive: true });
-  showHints();
+    runForSkin();
+    window.addEventListener('skinchange', runForSkin);
+    document.addEventListener('astro:after-swap', runForSkin);
+  })();
 </script>

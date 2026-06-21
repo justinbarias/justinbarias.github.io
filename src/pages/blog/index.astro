@@ -2,8 +2,8 @@
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
-const title = 'Blog';
-const description = 'Latest articles.';
+const title = 'Writing — Justin Barias';
+const description = 'Essays on evals, agents, AI platforms, and distributed systems.';
 const permalink = `${Astro.site?.href}blog`;
 
 let allPosts = await getCollection('posts')
@@ -11,43 +11,22 @@ allPosts = allPosts.sort((a, b) => new Date(b.data.publishDate).valueOf() - new 
 ---
 
 <BaseLayout title={title} description={description} permalink={permalink} current="blog">
+  <div class="blog-head">
+    <h1>Writing</h1>
+    <p class="blog-sub">{allPosts.length} essays on evals, agents &amp; AI platforms</p>
+  </div>
   <div class="container">
-    <h1>Blog</h1>
-    {allPosts.map((post, index) => {
-      const href = `/blog/${post.data.slug}`;
-      return (
-        <div>
-          { index !== 0 && <hr /> }
-          <div class="post-item">
-            <h2>
-              <a href={href}>{post.data.title}</a>
-            </h2>
+    <ul class="post-list">
+      {allPosts.map((post) => {
+        const href = `/blog/${post.data.slug}`;
+        return (
+          <li class="post-item">
+            <span class="post-date">{post.data.publishDate}</span>
+            <h2><a href={href}>{post.data.title}</a></h2>
             <p>{post.data.description}</p>
-            <div class="post-item-footer">
-              <span class="post-item-date">— {post.data.publishDate}</span>
-            </div>
-          </div>
-        </div>
-      )
-    })}
+          </li>
+        )
+      })}
+    </ul>
   </div>
 </BaseLayout>
-
-<style>
-  h2,
-  .post-item-footer {
-    font-family: var(--font-family-sans);
-    font-weight: 700;
-  }
-
-  .post-item-date {
-    color: var(--text-secondary);
-    text-align: left;
-    text-transform: uppercase;
-    margin-right: 16px;
-  }
-
-  hr {
-    margin: 60px auto;
-  }
-</style>

@@ -1,0 +1,34 @@
+---
+export interface Props {
+  experiences: Array<{
+    hash: string;
+    title: string;
+    company: string;
+    duration: string;
+    type?: string;
+    achievements: string[];
+  }>;
+}
+const { experiences } = Astro.props;
+---
+
+<ol class="xp-list">
+  {experiences.map((exp) => (
+    <li class="xp">
+      <div class="xp-when">
+        {exp.duration}
+        {exp.type && <span class="xp-tag">{exp.type}</span>}
+      </div>
+      <div class="xp-what">
+        <div class="xp-roleline">
+          <h3 class="xp-role" data-hash={exp.hash} data-when={exp.duration}>{exp.title}</h3>
+          {exp.type && <span class="xp-tag xp-tag-inline">{exp.type}</span>}
+        </div>
+        <p class="xp-org">{exp.company}</p>
+        <ul class="xp-points">
+          {exp.achievements.map((a) => <li>{a}</li>)}
+        </ul>
+      </div>
+    </li>
+  ))}
+</ol>
