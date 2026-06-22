@@ -18,40 +18,10 @@ const { title, description, permalink, current } = Astro.props;
 <body>
   <div class="layout">
     <Header current={current} />
-
     <main>
       <slot />
     </main>
-
     <Footer />
   </div>
 </body>
 </html>
-
-<style>
-  .layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    max-height: 100vh;
-  }
-
-  main {
-    flex: 1;
-    position: relative;
-    margin: 0 auto;
-    max-width: 1400px;
-    padding: 1em 2em;
-    box-sizing: border-box;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-  }
-
-  main::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-</style>

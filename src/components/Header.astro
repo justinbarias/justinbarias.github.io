@@ -1,25 +1,27 @@
 ---
-import Nav from './Nav.astro'
+import SkinSelector from './SkinSelector.svelte'
 
-const { current = '' } = Astro.props;
+const { current = '' } = Astro.props
 ---
 
-<style>
-  header {
-    display: flex;
-    margin: 0 auto;
-    max-width: 1400px;
-    padding: 1em 2em;
-    width: 100%;
-  }
-
-  @media screen and (max-width: 520px) {
-    header {
-      padding: 1em 0;
-    }
-  }
-</style>
-
-<header>
-  <Nav current={current} />
+<header class="site-header" id="site-header">
+  <a class="brand" href="/">Justin Barias</a>
+  <nav class="nav" aria-label="Primary">
+    <a class={`nav-link ${current === '' ? 'selected' : ''}`} href="/">home</a>
+    <a class={`nav-link ${current === 'blog' ? 'selected' : ''}`} href="/blog">writing</a>
+    <SkinSelector client:load />
+  </nav>
 </header>
+
+<script is:inline>
+  // Subtle border once the page is scrolled
+  (function () {
+    const set = () => {
+      const h = document.getElementById('site-header')
+      if (h) h.classList.toggle('scrolled', window.scrollY > 8)
+    }
+    set()
+    window.addEventListener('scroll', set, { passive: true })
+    document.addEventListener('astro:after-swap', set)
+  })()
+</script>

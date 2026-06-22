@@ -1,6 +1,5 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import '../styles/fonts.css'
 import '../styles/global.css'
 
 export interface Props {
@@ -26,6 +25,14 @@ const socialUrl = Astro.site?.href + 'assets/social.png'
 <meta name="viewport" content="width=device-width" />
 <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+<!-- Fonts: one display + body + mono per skin -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
@@ -47,16 +54,18 @@ const socialUrl = Astro.site?.href + 'assets/social.png'
 
 <ClientRouter />
 
-<!-- This is intentionally inlined to avoid FOUC -->
+<!-- Inlined to avoid a flash of the wrong skin -->
 <script is:inline>
-  const root = document.documentElement
-  const theme = localStorage.getItem('theme')
-  if (
-    theme === 'dark' ||
-    (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    root.classList.add('theme-dark')
-  } else {
-    root.classList.remove('theme-dark')
+  const SKINS = ['quiet', 'terminal', 'descent']
+  function applySkin() {
+    let skin = null
+    try {
+      skin = localStorage.getItem('skin')
+    } catch (e) {}
+    if (!SKINS.includes(skin)) skin = 'quiet'
+    document.documentElement.dataset.skin = skin
   }
+  applySkin()
+  // Re-apply after client-side (View Transitions) navigations
+  document.addEventListener('astro:after-swap', applySkin)
 </script>

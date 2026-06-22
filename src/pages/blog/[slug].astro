@@ -20,38 +20,15 @@ const { Content } = await render(post)
 ---
 
 <BaseLayout title={title} description={description} permalink={permalink} current="blog">
-  <header>
-    <p>{publishDate} ~ {readingTimeEstimate}</p>
+  <header class="post-header">
+    <p class="post-meta">{publishDate} · {readingTimeEstimate}</p>
     <h1>{title}</h1>
-    <hr />
+    <hr class="post-divider" />
   </header>
   <div class="container">
     <article class="content">
       <Content />
     </article>
-    <hr />
     <Bio />
   </div>
 </BaseLayout>
-
-<style>
-  header {
-    text-align: center;
-  }
-
-  header h1 {
-    margin-bottom: 0.7em;
-  }
-
-  header p {
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    font-family: var(--font-family-sans);
-    font-weight: 600;
-  }
-
-  header hr {
-    min-width: 100px;
-    width: 30%;
-  }
-</style>
