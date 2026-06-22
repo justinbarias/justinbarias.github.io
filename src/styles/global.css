@@ -1347,6 +1347,186 @@ main {
   /* leave default; the markdown ToC list */
 }
 
+/* ---------- Article artifacts (inline HTML in blog posts) ---------- */
+/* All driven by skin tokens, so they re-theme across quiet/terminal/descent. */
+.art {
+  margin: 2.2rem 0;
+  max-width: var(--measure);
+}
+.art-cap {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0.65rem 0 0;
+  line-height: 1.5;
+}
+.art-cap b { color: var(--fg-dim); font-weight: 600; }
+
+/* Callout — the one idea to remember */
+.callout {
+  margin: 2.2rem 0;
+  max-width: var(--measure);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 1.15rem 1.35rem;
+}
+.callout-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.5rem;
+}
+.callout p { margin: 0; color: var(--fg); font-size: 1.05rem; line-height: 1.6; }
+.callout p + p { margin-top: 0.7rem; }
+.callout strong { color: var(--fg); }
+
+/* Metric cards — big number + label */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.8rem;
+}
+.metric {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 1rem 1.1rem;
+}
+.metric-num {
+  font-family: var(--font-mono);
+  font-size: 1.9rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.metric-num.is-hot { color: var(--hot); }
+.metric-unit { font-size: 0.95rem; color: var(--muted); margin-left: 0.15rem; }
+.metric-label {
+  margin: 0.55rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--fg-dim);
+}
+
+/* Proportional bars — show one quantity dwarfing another */
+.bars { display: flex; flex-direction: column; gap: 0.85rem; }
+.bar-row { display: grid; grid-template-columns: 1fr; gap: 0.3rem; }
+.bar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.85rem;
+  color: var(--fg-dim);
+}
+.bar-head b { color: var(--fg); font-weight: 600; }
+.bar-head .bar-val { font-family: var(--font-mono); color: var(--fg); }
+.bar-track { height: 12px; background: var(--rule); border-radius: 999px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 999px; background: var(--accent); }
+.bar-fill.is-hot { background: var(--hot); }
+
+/* Split — A/B architecture compare */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+.split-col {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 1rem 1.15rem;
+}
+.split-col h4 {
+  margin: 0 0 0.3rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.split-col .split-arrow { color: var(--muted); }
+.split-col ul { margin: 0.6rem 0 0 !important; padding-left: 1.1rem; }
+.split-col li { font-size: 0.92rem; line-height: 1.5; color: var(--fg-dim); margin: 0.2rem 0; }
+.split-col p { margin: 0; font-size: 0.95rem; color: var(--fg); }
+
+/* Flow — numbered vertical sequence with a rail */
+.flow { display: flex; flex-direction: column; }
+.flow-step {
+  position: relative;
+  padding: 0 0 1.3rem 2.6rem;
+  border-left: 1px solid var(--rule);
+  margin-left: 0.85rem;
+}
+.flow-step:last-child { border-left-color: transparent; padding-bottom: 0; }
+.flow-num {
+  position: absolute;
+  left: -0.85rem;
+  top: -0.1rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.flow-step h4 { margin: 0 0 0.25rem; font-size: 1.02rem; color: var(--fg); }
+.flow-step p { margin: 0 !important; font-size: 0.92rem; line-height: 1.55; color: var(--fg-dim); }
+.flow-step .flow-out {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-2);
+}
+
+/* Refs — prior-art / citations panel */
+.refs {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  padding: 1.1rem 1.3rem;
+}
+.refs h4 {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.refs ul { margin: 0 !important; padding: 0; list-style: none; }
+.refs li {
+  margin: 0.5rem 0;
+  padding-left: 1rem;
+  position: relative;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--fg-dim);
+}
+.refs li::before { content: "›"; position: absolute; left: 0; color: var(--accent); }
+.refs li b { color: var(--fg); font-weight: 600; }
+.refs a { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .split { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar-fill { transition: width 0.6s ease; }
+}
+
 /* Bio */
 .bio {
   display: flex;
