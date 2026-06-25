@@ -8,6 +8,10 @@ const posts = defineCollection({
 		slug: z.string(),
 		publishDate: z.union([z.string(), z.date()]),
 		description: z.string(),
+		// Optional override for the social preview image. A site-relative path
+		// (e.g. "assets/my-card.png") or absolute URL. When omitted, the
+		// auto-generated /og/<slug>.png card is used.
+		image: z.string().optional(),
 	}),
 });
 
