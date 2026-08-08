@@ -230,4 +230,4 @@ The strategic picture, stated plainly:
 
 None of this is a reason not to start on a frontier model today. It's a reason to start *building the harness and the eval set now*, while you're on the frontier model, so that when the token reckoning arrives — and for agentic workloads at scale, it arrives — you have already built the bridge across it.
 
-The next post is the other side of this: the hard, low-level account of actually doing it. I built a specialist agent on consumer hardware, and almost every lesson in this strategic picture I learned by getting the build wrong first — broken adapters, a memory wall, a training run that scored a near-perfect loss while emitting pure garbage. That's where the abstractions above turn into error messages.
+The next post is the other side of this: the hard, low-level account of actually doing it. I built a specialist agent on consumer hardware, and almost every lesson in this strategic picture I learned by getting the build wrong first — broken adapters, a memory wall, a training run whose loss never converged while it trained itself into pure garbage. That's where the abstractions above turn into error messages.
