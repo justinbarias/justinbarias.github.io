@@ -1,0 +1,27 @@
+{
+  "adapter": "BASE",
+  "model": "mlx-community/Qwen3.6-35B-A3B-4bit",
+  "data": "data/traces/test.jsonl",
+  "metrics": {
+    "n_rows": 482,
+    "tool_name_accuracy": 0.6219,
+    "exact_call_accuracy": 0.5568,
+    "arg_character_accuracy": 1.0,
+    "arg_move_id_accuracy": 0.9515,
+    "arg_frame_budget_accuracy": 1.0,
+    "stance_accuracy": 0.0822,
+    "abstention_accuracy": 0.9524,
+    "termination_accuracy": 0.882,
+    "execution_validity": 0.8996,
+    "counts": {
+      "call": 283,
+      "abstain": 21,
+      "answer": 178
+    },
+    "per_tool": {
+      "lookup_move": 0.4888,
+      "get_moves_for_frame_budget": 1.0,
+      "apply_move": 0.5
+    }
+  }
+}
