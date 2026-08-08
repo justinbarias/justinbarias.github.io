@@ -25,3 +25,8 @@ pnpm-debug.log*
 
 # mermaid diagram sources (PNGs are the committed artifact)
 *.mmd
+
+# lora-blog-series working files (eval_runs is the committed artifact)
+lora-blog-series/JOURNAL.md
+lora-blog-series/linkedin-teaser.txt
+lora-blog-series/report.html

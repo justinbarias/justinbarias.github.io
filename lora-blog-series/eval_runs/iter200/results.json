@@ -1,0 +1,27 @@
+{
+  "adapter": "./ck200",
+  "model": "mlx-community/Qwen3.6-35B-A3B-4bit",
+  "data": "data/traces/test.jsonl",
+  "metrics": {
+    "n_rows": 482,
+    "tool_name_accuracy": 0.9435,
+    "exact_call_accuracy": 0.9213,
+    "arg_character_accuracy": 1.0,
+    "arg_move_id_accuracy": 0.9714,
+    "arg_frame_budget_accuracy": 1.0,
+    "stance_accuracy": 0.7368,
+    "abstention_accuracy": 0.8571,
+    "termination_accuracy": 0.7191,
+    "execution_validity": 0.8795,
+    "counts": {
+      "call": 283,
+      "abstain": 21,
+      "answer": 178
+    },
+    "per_tool": {
+      "lookup_move": 1.0,
+      "get_moves_for_frame_budget": 0.7808,
+      "apply_move": 1.0
+    }
+  }
+}
